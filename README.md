@@ -1,7 +1,7 @@
 python-ebay - Python Wrapper for eBay API
 ========================================
 
-Official documentation:     http://developer.ebay.com/products/overview/
+Official documentation: http://developer.ebay.com/products/overview/
 
 This wrapper intends to suport all of these operations. The list if taken from eBay Developer site.
 
