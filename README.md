@@ -1,7 +1,7 @@
 python-ebay - Python Wrapper for eBay API
 ========================================
 
-Official documentation: http://developer.ebay.com/products/overview/
+Official documentation:     http://developer.ebay.com/products/overview/
 
 This wrapper intends to suport all of these operations. The list if taken from eBay Developer site.
 
@@ -14,25 +14,25 @@ This wrapper intends to suport all of these operations. The list if taken from e
    findItemsIneBayStores: Search items in stores  
    getHistograms: Get category and domain meta data  
 
-2. Shopping API:
-   Item Search  
+2. Shopping API:  
+    Item Search  
     FindProducts: Search for products on eBay via keyword or ProductID.  
     FindHalfProducts: Search for Half.com product-related information from the catalog via keywords and category based search.  
 
-   Item Data  
+    Item Data  
     GetSingleItem: Simplified buyer specific view of item data  
     GetItemStatus: Retrieve changing item information towards the end of an auction  
     GetShippingCosts: Retrieve item shipping details  
     GetMultipleItems: Retrieve multiple item data in a single request.  
 
-   User Reputation  
+    User Reputation  
     GetUserProfile: Retrieve eBay user profile and feedback information.  
 
-   eBay Pop!  
+    eBay Pop!  
     FindPopularSearches: Retrieve popular and related search keywords by category or keyword.  
     FindPopularItems: Retrieve popular items by category   
 
-   Search  
+    Search  
     FindReviewsandGuides: Search for reviews and guides by user, category or ProductID.  
 
 
