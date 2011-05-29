@@ -18,4 +18,4 @@ class EBay(object):
     def __init__(self, dev=None, app=None, cert=None, config="config.ini"):
         ## read the config file and load the dev, app, cert variables.
         ## override the variables from the paramters passed in.
-        
+        pass

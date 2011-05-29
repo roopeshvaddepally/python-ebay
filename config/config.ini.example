@@ -1,0 +1,17 @@
+[keys]
+dev_name=ENTER_HERE
+app_name=ENTER_HERE
+cert_name=ENTER_HERE
+
+[call]
+siteid=ENTER_HER
+compatibility_level=ENTER_HERE
+
+[server]
+server_url=ENTER_HERE
+server_dir=/ws/api.dll
+
+[auth]
+token = ENTER_HERE
+
+

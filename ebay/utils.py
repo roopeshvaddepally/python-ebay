@@ -1,25 +1,5 @@
 from ConfigParser import ConfigParser
-
-def get_url(svc_name, operation_name):
-    import ConfigParser
-    config = ConfigParser.ConfigParser()
-    config.read("config.ini")
-    app_name = config.get("keys", "app_name")
-    return "/services/search/%(svc_name)s/v1?OPERATION-NAME=%(operation_name)s&SERVICE-VERSION=1.9.0&SECURITY-APPNAME=%(app_name)s&RESPONSE-DATA-FORMAT=JSON" % {
-        "svc_name": svc_name,
-        "operation_name": operation_name,
-        "app_name": app_name
-        }
-
-def get_response(url, method="GET"):
-    from httplib import HTTPConnection
-    home = "svcs.sandbox.ebay.com"
-    conn = HTTPConnection(home)
-    conn.request(method, url)
-    resp = conn.getresponse()
-    response = resp.read()
-    conn.close()
-    return response
+from os.path import join, dirname, abspath
 
 def configure(*args, **kwargs):
     config = ConfigParser()
@@ -40,3 +20,6 @@ def configure(*args, **kwargs):
              compatiblity_level=compatiblity_level)
     d.update(kwargs)
     return d
+
+def relative(*paths):
+    return join(dirname(abspath(__file__)), *paths)
