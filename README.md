@@ -3,9 +3,25 @@ python-ebay - Python Wrapper for eBay API
 
 Official documentation:     http://developer.ebay.com/products/overview/
 
-This wrapper intends to suport all of these operations. The list if taken from eBay Developer site.
+How to Install
+==============
+1. Download [python-ebay][1]  
+2. `python setup.py`
+   This will install the package.  
+3. How to Use:  
+`from ebay.shopping import FindProducts`  
+`print FindProducts("JSON", "pen", "false", "10")`
 
-1. Finding API:
+
+  [1]: https://github.com/roopeshvaddepally/python-ebay/tarball/master
+
+
+
+API details
+===========
+
+This wrapper intends to suport all of these operations. The list if taken from eBay Developer site.  
+1. Finding API: <UNDER DEVELOPMENT>  
    getSearchKeywordsRecommendation: Get recommended keywords for search  
    findItemsByKeywords: Search items by keywords  
    findItemsByCategory: Search items in a category  
@@ -14,7 +30,7 @@ This wrapper intends to suport all of these operations. The list if taken from e
    findItemsIneBayStores: Search items in stores  
    getHistograms: Get category and domain meta data  
 
-2. Shopping API:  
+2. Shopping API: <UNDER DEVELOPMENT>   
     Item Search  
     FindProducts: Search for products on eBay via keyword or ProductID.  
     FindHalfProducts: Search for Half.com product-related information from the catalog via keywords and category based search.  
