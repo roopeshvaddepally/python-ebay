@@ -18,8 +18,7 @@ setup(name='python-ebay',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          "requests",
-          "urllib2"
+          "requests"
       ],
       entry_points="""
       # -*- Entry points: -*-
