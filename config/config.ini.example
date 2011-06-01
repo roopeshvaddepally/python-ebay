@@ -13,5 +13,4 @@ server_dir=/ws/api.dll
 
 [auth]
 token = ENTER_HERE
-
-
+#You need production token here if you are using the Best Match API
