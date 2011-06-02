@@ -11,7 +11,7 @@ How to Install
 3. Configure `config.ini` to it's required values. You need to generate the values from eBay Developer Program [here][4]   
 4. `python setup.py`
    This will install the package.  
-5. How to Use (see all operations in /test):  
+5. How to Use (see all operations in /examples):  
 `from ebay.shopping import FindProducts`  
 `print FindProducts("JSON", "pen", "false", "10")`
 
