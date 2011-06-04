@@ -122,32 +122,63 @@ def offerOtherSolution(caseId, caseType, messageToBuyer):
     request = etree.tostring(root, pretty_print=True)
     return get_response(offerOtherSolution.__name__, request)
     
-def escalateToCustomerSuppport():
+def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None):
     root = etree.Element("escalateToCustomerSuppportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
+
+    caseId_elem = etree.SubElement(root, "caseId")
+    id_elem = etree.SubElement(caseId_elem, "id")
+    id_elem.text = caseId
+    type_elem = etree.SubElement(caseId_elem, "type")
+    type_elem.text = caseType
     
+    #escalationReason is a dict
+    escalationReason_elem = etree.SubElement(root, "escalationReason")
+    for key in escalationReason.keys():
+        key_elem = etree.SubElement(root, key)
+        key_elem.text = escalationReason[key]
+    
+    if comments:
+        comments_elem = etree.SubElement(root, "comments")
+        comments_elem.text = comments
     
     request = etree.tostring(root, pretty_print=True)
     return get_response(escalateToCustomerSuppport.__name__, request)
     
-def appealToCustomerSupport():
+def appealToCustomerSupport(caseId, caseType, appealReason, comments=None):
     root = etree.Element("appealToCustomerSupportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     
+    caseId_elem = etree.SubElement(root, "caseId")
+    id_elem = etree.SubElement(caseId_elem, "id")
+    id_elem.text = caseId
+    type_elem = etree.SubElement(caseId_elem, "type")
+    type_elem.text = caseType
+
+    appealReason_elem = etree.SubElement(root, "appealReason")
+    appealReason_elem.text = appealReason 
+    
+    if comments:
+        comments_elem = etree.SubElement(root, "comments")
+        comments_elem.text = comments
     
     request = etree.tostring(root, pretty_print=True)
     return get_response(appealToCustomerSupport.__name__, request)
     
 
 # Metadata calls
-def getActivityOptions():
+def getActivityOptions(caseId, caseType):
     root = etree.Element("getActivityOptionsRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
+
+    caseId_elem = etree.SubElement(root, "caseId")
+    id_elem = etree.SubElement(caseId_elem, "id")
+    id_elem.text = caseId
+    type_elem = etree.SubElement(caseId_elem, "type")
+    type_elem.text = caseType
     
     request = etree.tostring(root, pretty_print=True)
     return get_response(getActivityOptions.__name__, request)
     
 def getVersion():
     root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
     
     request = etree.tostring(root, pretty_print=True)
     return get_response(getVersion.__name__, request)
