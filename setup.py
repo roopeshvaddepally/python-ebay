@@ -18,7 +18,8 @@ setup(name='python-ebay',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          "requests"
+          "requests",
+          "lxml"
       ],
       entry_points="""
       # -*- Entry points: -*-
