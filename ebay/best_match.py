@@ -98,7 +98,7 @@ def findBestMatchItemDetails():
     return get_response(findBestMatchItemDetails.__name__,request)
     
 def getVersion():
-    root = etree.Element("findBestMatchItemDetailsBySellerRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     request=etree.tostring(root, pretty_print=True)
 
     return get_response(getVersion.__name__, request)
