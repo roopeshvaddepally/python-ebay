@@ -167,7 +167,7 @@ def get_response(operation_name, data):
     endpoint='https://svcs.ebay.com/services/search/BestMatchItemDetailsService/v1'
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
-    access_token = config.get("auth", "token_prod")
+    access_token = config.get("auth", "token")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token}
