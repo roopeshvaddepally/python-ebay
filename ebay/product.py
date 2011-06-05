@@ -8,6 +8,7 @@ def findCompatibilitiesBySpecification(specification, categoryId=None, compatibi
     root = etree.Element("findCompatibilitiesBySpecificationRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services"
 
     #specification is a List of Dicts
+    
 
     #compatibilityPropertyFilter is List of dicts
 
