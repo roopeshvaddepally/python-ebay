@@ -69,15 +69,11 @@ class CompatibilityPropertyFilter(object):
         self.values = []
 
 class SortOrder(object):
-    def __init__(self, sortPriority):
+    def __init__(self, sortPriority, order, propertyName):
         self.sortPriority = sortPriority
-        self.subSortOrder = None
-
-class SubSortOrder(object):
-    def __init__(self, order, propertyName):
         self.order = order
         self.propertyName = propertyName
-
+        
 class ApplicationPropertyFilter(object):
     def __init__(self, propertyName):
         self.propertyName = propertyName

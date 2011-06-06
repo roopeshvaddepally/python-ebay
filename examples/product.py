@@ -1,4 +1,4 @@
-from ebay.product import findCompatibilitiesBySpecification
+from ebay.product import findCompatibilitiesBySpecification, getProductCompatibilities
 
 from ebay.utils import Specification, Value 
 

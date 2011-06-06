@@ -2,7 +2,7 @@ import urllib2
 from lxml import etree
 
 from ConfigParser import ConfigParser
-from utils import relative, Specification, CompatibilityPropertyFilter, Value, SortOrder, SubSortOrder 
+from utils import relative, Specification, CompatibilityPropertyFilter, Value, SortOrder 
 
 def findCompatibilitiesBySpecification(specification, categoryId, compatibilityPropertyFilter=None, dataSet=None, datasetPropertyName=None, exactMatch=None, paginationInput=None, sortOrder=None):
     
@@ -81,9 +81,9 @@ def findCompatibilitiesBySpecification(specification, categoryId, compatibilityP
             
             subSortOrder_elem = etree.SubElement(sortOrder_elem, "sortOrder")
             order_elem = etree.SubElement(subSortOrder_elem, "order")
-            order_elem.text = so.subSortOrder.order
+            order_elem.text = so.order
             propertyName_elem = etree.SubElement(subSortOrder_elem, "propertyName")
-            subSortOrder_elem.text = so.subSortOrder.propertyName 
+            subSortOrder_elem.text = so.propertyName 
         
         
     request=etree.tostring(root, pretty_print=True)
@@ -154,9 +154,9 @@ def getProductCompatibilities(datasetPropertyName, productIdentifier, applicatio
             
             subSortOrder_elem = etree.SubElement(sortOrder_elem, "sortOrder")
             order_elem = etree.SubElement(subSortOrder_elem, "order")
-            order_elem.text = so.subSortOrder.order
+            order_elem.text = so.order
             propertyName_elem = etree.SubElement(subSortOrder_elem, "propertyName")
-            subSortOrder_elem.text = so.subSortOrder.propertyName 
+            subSortOrder_elem.text = so.propertyName 
             
     request=etree.tostring(root, pretty_print=True)
     return get_response(getProductCompatibilities.__name__, request)
