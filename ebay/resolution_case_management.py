@@ -1,4 +1,4 @@
-import urllib2
+paginationInputimport urllib2
 from lxml import etree
 
 from ConfigParser import ConfigParser
