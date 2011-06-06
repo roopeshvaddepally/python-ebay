@@ -79,57 +79,57 @@ class PaginationInput(object):
             "entriesPerPage": entriesPerPage
             }
 
-class SortOrder(object):
-    """Values that can be used to sort search results
-
-    >>> s = SortOrder()
-    >>> s.data() == {"sortOrder": "BestMatch"}
-    True
-    >>> s = SortOrder("BidCountFewest")
-    >>> s.data() == {"sortOrder": "BidCountFewest", "itemFilter.name": "ListingType", "itemFilter.value": "Auction"}
-    True
-    >>> s = SortOrder("BidCountMost")
-    >>> s.data() == {"sortOrder": "BidCountMost", "itemFilter.name": "ListingType", "itemFilter.value": "Auction"}
-    True
-    >>> s = SortOrder("Distance")
-    >>> s.data() == {"sortOrder":"Distance"}
-    True
-    >>> s = SortOrder("Distance", buyerPostalCode=95112)
-    >>> s.data() == {"sortOrder":"Distance", "buyerPostalCode": "95112"}
-    True
-    
-    """
-    def __init__(self, type_="BestMatch", *args, **kwargs):
-        self.acceptable_types = ("BestMatch", "BidCountFewest", "BidCountMost",
-                            "CountryAscending", "CountryDescending",
-                            "CurrentPriceHighest", "Distance",
-                            "EndTimeSoonest", "PricePlusShippingHighest",
-                            "PricePlusShippingLowest", "StartTimeNewest")
-        self.type = type_
-        self.buyerPostalCode = kwargs.get("buyerPostalCode", None)
-
-    @property
-    def type(self):
-        return self._type
-    @type.setter
-    def type(self, type_="BestMatch"):
-        if type_ not in self.acceptable_types:
-            type_ = "BestMatch"
-        self._type = type_
-
-    def data(self):
-        data = {"sortOrder": self.type}
-        auction_sort_orders_types = ["BidCountFewest", "BidCountMost"]
-
-        if self.type in auction_sort_orders_types:
-            data.update({
-                    "itemFilter.name": "ListingType",
-                    "itemFilter.value": "Auction",
-                    })
-        if self.type == "Distance" and self.buyerPostalCode is not None:
-            data.update({"buyerPostalCode": str(self.buyerPostalCode)})
-
-        return data
+# class SortOrder(object):
+#     """Values that can be used to sort search results
+# 
+#     >>> s = SortOrder()
+#     >>> s.data() == {"sortOrder": "BestMatch"}
+#     True
+#     >>> s = SortOrder("BidCountFewest")
+#     >>> s.data() == {"sortOrder": "BidCountFewest", "itemFilter.name": "ListingType", "itemFilter.value": "Auction"}
+#     True
+#     >>> s = SortOrder("BidCountMost")
+#     >>> s.data() == {"sortOrder": "BidCountMost", "itemFilter.name": "ListingType", "itemFilter.value": "Auction"}
+#     True
+#     >>> s = SortOrder("Distance")
+#     >>> s.data() == {"sortOrder":"Distance"}
+#     True
+#     >>> s = SortOrder("Distance", buyerPostalCode=95112)
+#     >>> s.data() == {"sortOrder":"Distance", "buyerPostalCode": "95112"}
+#     True
+#     
+#     """
+#     def __init__(self, type_="BestMatch", *args, **kwargs):
+#         self.acceptable_types = ("BestMatch", "BidCountFewest", "BidCountMost",
+#                             "CountryAscending", "CountryDescending",
+#                             "CurrentPriceHighest", "Distance",
+#                             "EndTimeSoonest", "PricePlusShippingHighest",
+#                             "PricePlusShippingLowest", "StartTimeNewest")
+#         self.type = type_
+#         self.buyerPostalCode = kwargs.get("buyerPostalCode", None)
+# 
+#     @property
+#     def type(self):
+#         return self._type
+#     @type.setter
+#     def type(self, type_="BestMatch"):
+#         if type_ not in self.acceptable_types:
+#             type_ = "BestMatch"
+#         self._type = type_
+# 
+#     def data(self):
+#         data = {"sortOrder": self.type}
+#         auction_sort_orders_types = ["BidCountFewest", "BidCountMost"]
+# 
+#         if self.type in auction_sort_orders_types:
+#             data.update({
+#                     "itemFilter.name": "ListingType",
+#                     "itemFilter.value": "Auction",
+#                     })
+#         if self.type == "Distance" and self.buyerPostalCode is not None:
+#             data.update({"buyerPostalCode": str(self.buyerPostalCode)})
+# 
+#         return data
 
 class Value(object):
     def __init__(self,
@@ -145,3 +145,22 @@ class Specification(object):
         self.propertyName = propertyName
         self.values = []
 
+class CompatibilityPropertyFilter(object):
+    def __init__(self, propertyName):
+        self.propertyName = propertyName
+        self.values = []
+
+class SortOrder(object):
+    def __init__(self, sortPriority):
+        self.sortPriority = sortPriority
+        self.subSortOrder = None
+
+class SubSortOrder(object):
+    def __init__(self, order, propertyName):
+        self.order = order
+        self.propertyName = propertyName
+
+class ApplicationPropertyFilter(object):
+    def __init__(self, propertyName):
+        self.propertyName = propertyName
+        self.values = []
