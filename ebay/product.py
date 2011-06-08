@@ -188,10 +188,10 @@ def getProductDetails():
     
 
 def get_response(operation_name, data):
-    endpoint='http://svcs.sandbox.ebay.com/services/marketplacecatalog/ProductService/v1'
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
+    endpoint = config.get("endpoints", "product")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-APPNAME": app_name}

@@ -4,6 +4,7 @@ from lxml import etree
 from ConfigParser import ConfigParser
 from utils import relative
 
+#USE UPPERCASE VARIABLE
 
 def createDSRSummaryByCategory(categoryId , dateRangeFrom, dateRangeTo, dateRangeEventType=None):
     root = etree.Element("createDSRSummaryByCategoryRequest", xmlns="http://www.ebay.com/marketplace/services")
@@ -109,14 +110,16 @@ def getDSRSummary(jobId):
     
     
 
-def get_response(operation_name, data):
-    endpoint='https://svcs.ebay.com/FeedbackService'
+def get_response(operation_name, data, **headers={}):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
+    endpoint = config.get("endpoints", "feedback")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token}
+    
+    http_headers.update(headers)
     
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)

@@ -150,6 +150,7 @@ def get_response(operation_name, data, encoding):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
+    endpoint = config.get("endpoints", "merchandising")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "EBAY-SOA-CONSUMER-ID": app_name,

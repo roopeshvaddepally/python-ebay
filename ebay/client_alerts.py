@@ -54,14 +54,13 @@ def Logout(SessionID, SessionData, MessageID=None, encoding="JSON"):
     return response.content
 
 def get_response(user_params):
-    endpoint = "http://clientalerts.sandbox.ebay.com/ws/ecasvc/ClientAlerts"
-    
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     
     app_id = config.get("keys", "app_name")
     site_id = config.get("call", "siteid")
     version = config.get("call", "compatibility_level")
+    endpoint = config.get("endpoints", "client_alerts")
 
     d=dict(appid = app_id, siteid = site_id, version = version)
     d.update(user_params)

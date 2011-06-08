@@ -185,10 +185,10 @@ def getVersion():
 
 
 def get_response(operation_name, data):
-    endpoint='https://svcs.sandbox.ebay.com/services/resolution/ResolutionCaseManagementService/v1'
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
+    endpoint = config.get("endpoints", "resolution_case_management")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token}

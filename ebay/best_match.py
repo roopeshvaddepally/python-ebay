@@ -164,10 +164,10 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
     
     
 def get_response(operation_name, data):
-    endpoint='https://svcs.ebay.com/services/search/BestMatchItemDetailsService/v1'
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
+    endpoint = config.get("endpoints", "best_match")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token}

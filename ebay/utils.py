@@ -3,9 +3,6 @@ from os.path import join, dirname, abspath
 def relative(*paths):
     return join(dirname(abspath(__file__)), *paths)
 
-class IDTooLong(Exception): pass
-class NotAValidPartner(Exception): pass
-
 class Affliate(object):
     def __init__(customId, networkId, trackingId):
         self.customId = customId
@@ -59,9 +56,9 @@ class Value(object):
         self.url = url
 
 class Specification(object):
-    def __init__(self, propertyName):
+    def __init__(self, propertyName, values): #fix it
         self.propertyName = propertyName
-        self.values = []
+        self.values = values
 
 class CompatibilityPropertyFilter(object):
     def __init__(self, propertyName):

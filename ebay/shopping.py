@@ -148,14 +148,13 @@ def GeteBayTime(encoding):
 
 #requests method
 def get_response(user_params):
-    endpoint = "http://open.api.sandbox.ebay.com/shopping"
-    
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     
     app_id = config.get("keys", "app_name")
     site_id = config.get("call", "siteid")
     version = config.get("call", "compatibility_level")
+    endpoint = config.get("endpoints", "shopping")
 
     d=dict(appid = app_id, siteid = site_id, version = version)
     
