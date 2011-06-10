@@ -6,7 +6,7 @@ from utils import relative
 
 #USE UPPERCASE VARIABLE
 
-def createDSRSummaryByCategory(categoryId , dateRangeFrom, dateRangeTo, dateRangeEventType=None):
+def createDSRSummaryByCategory(categoryId , dateRangeFrom, dateRangeTo, dateRangeEventType=None, encoding="JSON"):
     root = etree.Element("createDSRSummaryByCategoryRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #categoryId is a List
@@ -26,10 +26,10 @@ def createDSRSummaryByCategory(categoryId , dateRangeFrom, dateRangeTo, dateRang
         dateRangeEventType_elem.text = dateRangeEventType
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(createDSRSummaryByCategory.__name__, request)
+    return get_response(createDSRSummaryByCategory.__name__, request, encoding)
 
     
-def createDSRSummaryByPeriod(dateRangeFrom, dateRangeTo, dateRangeEventType=None):
+def createDSRSummaryByPeriod(dateRangeFrom, dateRangeTo, dateRangeEventType=None, encoding="JSON"):
     root = etree.Element("createDSRSummaryByPeriodRequest", xmlns="http://www.ebay.com/marketplace/services")
     
     dateRange_elem = etree.SubElement(root, "dateRange")
@@ -44,9 +44,9 @@ def createDSRSummaryByPeriod(dateRangeFrom, dateRangeTo, dateRangeEventType=None
         dateRangeEventType_elem.text = dateRangeEventType
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(createDSRSummaryByPeriod.__name__, request)
+    return get_response(createDSRSummaryByPeriod.__name__, request, encoding)
     
-def createDSRSummaryByShippingDetail(dateRangeFrom, dateRangeTo, dateRangeEventType=None, shippingCostType=None, shippingDestinationType=None, shippingService=None, shipToCountry=None):
+def createDSRSummaryByShippingDetail(dateRangeFrom, dateRangeTo, dateRangeEventType=None, shippingCostType=None, shippingDestinationType=None, shippingService=None, shipToCountry=None, encoding="JSON"):
     root = etree.Element("createDSRSummaryByShippingDetailRequest", xmlns="http://www.ebay.com/marketplace/services")
     
     dateRange_elem = etree.SubElement(root, "dateRange")
@@ -81,12 +81,12 @@ def createDSRSummaryByShippingDetail(dateRangeFrom, dateRangeTo, dateRangeEventT
             shipToCountry_elem.text = shipToCountry
         
     request = etree.tostring(root, pretty_print=True)
-    return get_response(createDSRSummaryByShippingDetail.__name__, request)
+    return get_response(createDSRSummaryByShippingDetail.__name__, request, encoding)
 
 
 #making transactionId required here, but it's not in the eBay API. Will fix it later
 #transactionId is a list of dicts: [{itemId:123, transactionId:72}, {itemId:33, transactionId:21}]
-def createDSRSummaryByTransaction(transactionKey):
+def createDSRSummaryByTransaction(transactionKey, encoding="JSON"):
     root = etree.Element("createDSRSummaryByTransactionRequest", xmlns="http://www.ebay.com/marketplace/services")
     
     for t in transactionKey:
@@ -97,9 +97,9 @@ def createDSRSummaryByTransaction(transactionKey):
             itemId_elem.text =  t[key]
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(createDSRSummaryByTransaction.__name__, request)
+    return get_response(createDSRSummaryByTransaction.__name__, request, encoding)
     
-def getDSRSummary(jobId):
+def getDSRSummary(jobId, encoding="JSON"):
     root = etree.Element("getDSRSummaryRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     jobId_elem = etree.SubElement(root, "jobId")
@@ -107,18 +107,19 @@ def getDSRSummary(jobId):
     
     request = etree.tostring(root, pretty_print=True)
     print request
-    return get_response(getDSRSummary.__name__, request)
+    return get_response(getDSRSummary.__name__, request, encoding)
     
     
 
-def get_response(operation_name, data, **headers):
+def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "feedback")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
-                    "X-EBAY-SOA-SECURITY-TOKEN": access_token}
+                    "X-EBAY-SOA-SECURITY-TOKEN": access_token,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
     
     http_headers.update(headers)
     

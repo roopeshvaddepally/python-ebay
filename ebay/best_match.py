@@ -4,57 +4,57 @@ from lxml import etree
 from ConfigParser import ConfigParser
 from utils import relative
 
-def findBestMatchItemDetailsAcrossStores(keywords, siteResultsPerPage, categoryId=None, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
+def findBestMatchItemDetailsAcrossStores(keywords, siteResultsPerPage, categoryId=None, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None, encoding="JSON"):
     root = etree.Element("findBestMatchItemDetailsAcrossStoresRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     root = get_generic_tags(root=root, keywords=keywords, siteResultsPerPage=siteResultsPerPage, categoryId=categoryId, entriesPerPage=entriesPerPage, ignoreFeatured=ignoreFeatured, itemFilter=itemFilter, outputSelector=outputSelector, postSearchItemFilter=postSearchItemFilter, postSearchSellerFilter=postSearchSellerFilter)
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsAcrossStores.__name__, request)
+    return get_response(findBestMatchItemDetailsAcrossStores.__name__, request, encoding)
 
 
     
-def findBestMatchItemDetailsAdvanced(keywords, siteResultsPerPage, categoryId=None, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
+def findBestMatchItemDetailsAdvanced(keywords, siteResultsPerPage, categoryId=None, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None, encoding="JSON"):
     root = etree.Element("findBestMatchItemDetailsAdvancedRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     root = get_generic_tags(root=root, keywords=keywords, siteResultsPerPage=siteResultsPerPage, categoryId=categoryId, entriesPerPage=entriesPerPage, ignoreFeatured=ignoreFeatured, itemFilter=itemFilter, outputSelector=outputSelector, postSearchItemFilter=postSearchItemFilter, postSearchSellerFilter=postSearchSellerFilter)
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsAdvanced.__name__, request)
+    return get_response(findBestMatchItemDetailsAdvanced.__name__, request, encoding)
 
 
     
-def findBestMatchItemDetailsByCategory(categoryId, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
+def findBestMatchItemDetailsByCategory(categoryId, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None, encoding="JSON"):
     root = etree.Element("findBestMatchItemDetailsByCategoryRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     root = get_generic_tags(root=root, categoryId=categoryId,siteResultsPerPage=siteResultsPerPage, entriesPerPage=entriesPerPage, ignoreFeatured=ignoreFeatured, itemFilter=itemFilter, outputSelector=outputSelector, postSearchItemFilter=postSearchItemFilter, postSearchSellerFilter=postSearchSellerFilter)
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsByCategory.__name__, request)
+    return get_response(findBestMatchItemDetailsByCategory.__name__, request, encoding)
 
 
 
-def findBestMatchItemDetailsByKeywords(keywords, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
+def findBestMatchItemDetailsByKeywords(keywords, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None, encoding="JSON"):
     root = etree.Element("root", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     root = get_generic_tags(root=root, keywords=keywords, siteResultsPerPage=siteResultsPerPage, entriesPerPage=entriesPerPage, ignoreFeatured=ignoreFeatured, itemFilter=itemFilter, outputSelector=outputSelector, postSearchItemFilter=postSearchItemFilter, postSearchSellerFilter=postSearchItemFilter)
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsByKeywords.__name__, request)
+    return get_response(findBestMatchItemDetailsByKeywords.__name__, request, encoding)
 
     
     
-def findBestMatchItemDetailsByProduct(productId, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
+def findBestMatchItemDetailsByProduct(productId, siteResultsPerPage, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None, encoding="JSON"):
     root = etree.Element("findBestMatchItemDetailsByProductRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     root = get_generic_tags(root=root, productId=productId, siteResultsPerPage=siteResultsPerPage, entriesPerPage=entriesPerPage, ignoreFeatured=ignoreFeatured, itemFilter=itemFilter, outputSelector=outputSelector, postSearchItemFilter=postSearchItemFilter, postSearchSellerFilter=postSearchItemFilter)
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsByProduct.__name__, request)
+    return get_response(findBestMatchItemDetailsByProduct.__name__, request, encoding)
 
 
     
-def findBestMatchItemDetailsBySeller(categoryId, sellerUserName, ignoreFeatured=None, itemFilter=None, paginationInput=None):
+def findBestMatchItemDetailsBySeller(categoryId, sellerUserName, ignoreFeatured=None, itemFilter=None, paginationInput=None, encoding="JSON"):
     root = etree.Element("findBestMatchItemDetailsBySellerRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     categoryId_elem = etree.SubElement(root, "categoryId")
@@ -85,18 +85,18 @@ def findBestMatchItemDetailsBySeller(categoryId, sellerUserName, ignoreFeatured=
             input_values_elem.text = paginationInput[key]
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findBestMatchItemDetailsBySeller.__name__, request)
+    return get_response(findBestMatchItemDetailsBySeller.__name__, request, encoding)
 
     
 #Not working
-def findBestMatchItemDetails():
+def findBestMatchItemDetails(encoding="JSON"):
     request = """<?xml version="1.0" encoding="utf-8"?>
 <getBestMatchItemDetailsRequest xmlns="http://www.ebay.com/marketplace/search/v1/services">
   <itemId>13474073440</itemId>
   <itemId>23484479761</itemId>
 </getBestMatchItemDetailsRequest>"""
 
-    return get_response(findBestMatchItemDetails.__name__,request)
+    return get_response(findBestMatchItemDetails.__name__,request, encoding)
     
 def getVersion():
     root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
@@ -162,14 +162,15 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
     return root
     
     
-def get_response(operation_name, data, **headers):
+def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token_prod")
     endpoint = config.get("endpoints", "best_match")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
-                    "X-EBAY-SOA-SECURITY-TOKEN": access_token}
+                    "X-EBAY-SOA-SECURITY-TOKEN": access_token,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
    
     http_headers.update(headers)
     

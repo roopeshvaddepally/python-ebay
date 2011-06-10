@@ -1,13 +1,13 @@
 from ebay.shopping import FindProducts, FindHalfProducts , GetSingleItem, GetItemStatus, GetShippingCosts, GetMultipleItems, GetUserProfile, FindPopularSearches, FindPopularItems, FindReviewsandGuides, GetCategoryInfo, GeteBayTime
 
-print FindProducts('JSON', 'pen', 'false', '10')
+print FindProducts(encoding='JSON', query='ipod', available_items='false', max_entries='10')
 print FindHalfProducts(encoding='JSON', query='harry', max_entries='5')
 print FindHalfProducts(encoding='JSON', product_type='ISBN', product_value='0439294827', include_selector='Items')
 print GetSingleItem(encoding='JSON', item_id='110089122715')
 print GetSingleItem(encoding='JSON', item_id='110089122716', include_selector='Description,ItemSpecifics,ShippingCosts')
-print GetItemStatus('JSON', '110089122716,110089122715')
-print GetShippingCosts('JSON', '110089122715', 'US','95128', 'true', '1')
-print GetMultipleItems('JSON', '110089122716')
+print GetItemStatus(encoding='JSON', item_id='110089122716,110089122715')
+print GetShippingCosts(encoding='JSON', item_id='110089122715', destination_country_code='US', destination_postal_code='95128', details='true', quantity_sold='1')
+print GetMultipleItems(encoding='JSON', '110089122716')
 print GetUserProfile(encoding='JSON', user_id='TESTUSER_magicalbookseller')
 print GetUserProfile(encoding='JSON', user_id='TESTUSER_magicalbookseller', include_selector='Details')
 print FindPopularSearches(encoding='JSON', query='dell', category_id='58058')

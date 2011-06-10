@@ -3,7 +3,7 @@ import requests
 from utils import relative
 
 # Item Search
-def FindProducts(encoding, query, available_items, max_entries):
+def FindProducts(query, available_items, max_entries, encoding="JSON"):
     
     user_param={'callname' : FindProducts.__name__,
                 'responseencoding' : encoding,
@@ -14,7 +14,7 @@ def FindProducts(encoding, query, available_items, max_entries):
     response = get_response(user_param)
     return response.content
     
-def FindHalfProducts(encoding="JSON", query=None, max_entries=None, product_type=None, product_value=None, include_selector=None):                  
+def FindHalfProducts(query=None, max_entries=None, product_type=None, product_value=None, include_selector=None, encoding="JSON"):                  
     if product_type and product_value and include_selector:
         user_param = {'callname' : FindHalfProducts.__name__,
                       'responseencoding' : encoding, 
@@ -32,7 +32,7 @@ def FindHalfProducts(encoding="JSON", query=None, max_entries=None, product_type
     return response.content
 
 # Item Data
-def GetSingleItem(encoding, item_id, include_selector=None):
+def GetSingleItem(item_id, include_selector=None, encoding="JSON"):
     user_param={'callname' : GetSingleItem.__name__,
                 'responseencoding' : encoding,
                 'ItemId' : item_id}
@@ -43,7 +43,7 @@ def GetSingleItem(encoding, item_id, include_selector=None):
     response = get_response(user_param)
     return response.content
     
-def GetItemStatus(encoding, item_id):
+def GetItemStatus(item_id, encoding="JSON"):
     user_param={'callname' : GetItemStatus.__name__,
                 'responseencoding' : encoding,
                 'ItemId' : item_id}
@@ -51,7 +51,7 @@ def GetItemStatus(encoding, item_id):
     response = get_response(user_param)
     return response.content
     
-def GetShippingCosts(encoding, item_id, destination_country_code, destination_postal_code, details, quantity_sold):
+def GetShippingCosts(item_id, destination_country_code, destination_postal_code, details, quantity_sold, encoding="JSON"):
     user_param={'callname' : GetShippingCosts.__name__,
                 'responseencoding' : encoding,
                 'ItemId' : item_id,
@@ -63,7 +63,7 @@ def GetShippingCosts(encoding, item_id, destination_country_code, destination_po
     response = get_response(user_param)
     return response.content 
     
-def GetMultipleItems(encoding, item_id):
+def GetMultipleItems(item_id, encoding="JSON"):
     user_param={'callname' : GetMultipleItems.__name__,
                 'responseencoding' : encoding,
                 'ItemId' : item_id}
@@ -72,7 +72,7 @@ def GetMultipleItems(encoding, item_id):
     return response.content
 
 # User Reputation
-def GetUserProfile(encoding, user_id, include_selector=None):
+def GetUserProfile(user_id, include_selector=None, encoding="JSON"):
     user_param={'callname' : GetUserProfile.__name__,
                 'responseencoding' : encoding,
                 'UserID' : user_id}
@@ -85,7 +85,7 @@ def GetUserProfile(encoding, user_id, include_selector=None):
  
 
 # eBay pop!
-def FindPopularSearches(encoding, query, category_id=None):
+def FindPopularSearches(query, category_id=None, encoding="JSON"):
     user_param={'callname' : FindPopularSearches.__name__,
                 'responseencoding' : encoding,
                 'QueryKeywords' : query}
@@ -97,7 +97,7 @@ def FindPopularSearches(encoding, query, category_id=None):
     return response.content
 
     
-def FindPopularItems(encoding, query, category_id_exclude=None):
+def FindPopularItems(query, category_id_exclude=None, encoding="JSON"):
     user_param={'callname' : FindPopularItems.__name__,
                 'responseencoding' : encoding,
                 'QueryKeywords' : query}
@@ -110,7 +110,7 @@ def FindPopularItems(encoding, query, category_id_exclude=None):
 
     
 # Search: Bug in eBay documentation of Product Id: http://developer.ebay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html#Samples
-def FindReviewsandGuides(encoding, category_id=None, product_id=None):
+def FindReviewsandGuides(category_id=None, product_id=None, encoding="JSON"):
     if category_id:
         user_param={'callname' : FindReviewsAndGuides.__name__,
                 'responseencoding' : encoding,
@@ -126,7 +126,7 @@ def FindReviewsandGuides(encoding, category_id=None, product_id=None):
 
 
 # Utilities
-def GetCategoryInfo(encoding, category_id, include_selector=None):
+def GetCategoryInfo(category_id, include_selector=None, encoding="JSON"):
     if category_id:
         user_param={'callname' : GetCategoryInfo.__name__,
                 'responseencoding' : encoding,
@@ -138,7 +138,7 @@ def GetCategoryInfo(encoding, category_id, include_selector=None):
     response = get_response(user_param)
     return response.content
  
-def GeteBayTime(encoding):
+def GeteBayTime(encoding="JSON"):
     user_param={'callname' : GeteBayTime.__name__,
                 'responseencoding' : encoding}
                 

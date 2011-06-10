@@ -4,7 +4,7 @@ from lxml import etree
 from ConfigParser import ConfigParser
 from utils import relative, Specification, CompatibilityPropertyFilter, Value, SortOrder 
 
-def findCompatibilitiesBySpecification(specification, categoryId, compatibilityPropertyFilter=None, dataSet=None, datasetPropertyName=None, exactMatch=None, paginationInput=None, sortOrder=None):
+def findCompatibilitiesBySpecification(specification, categoryId, compatibilityPropertyFilter=None, dataSet=None, datasetPropertyName=None, exactMatch=None, paginationInput=None, sortOrder=None, encoding="JSON"):
     
     root = etree.Element("findCompatibilitiesBySpecificationRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
 
@@ -88,10 +88,10 @@ def findCompatibilitiesBySpecification(specification, categoryId, compatibilityP
         
     request=etree.tostring(root, pretty_print=True)
 
-    return get_response(findCompatibilitiesBySpecification.__name__, request)
+    return get_response(findCompatibilitiesBySpecification.__name__, request, encoding)
 
 
-def getProductCompatibilities(datasetPropertyName, productIdentifier, applicationPropertyFilter=None, dataset=None, disabledProductFilter=None, paginationInput=None, sortOrder=None):
+def getProductCompatibilities(datasetPropertyName, productIdentifier, applicationPropertyFilter=None, dataset=None, disabledProductFilter=None, paginationInput=None, sortOrder=None, encoding="JSON"):
     root = etree.Element("findProductsByCompatibilityRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
    
     #datasetPropertyName is a List
@@ -159,42 +159,43 @@ def getProductCompatibilities(datasetPropertyName, productIdentifier, applicatio
             subSortOrder_elem.text = so.propertyName 
             
     request=etree.tostring(root, pretty_print=True)
-    return get_response(getProductCompatibilities.__name__, request)
+    return get_response(getProductCompatibilities.__name__, request, encoding)
 
     
-def findProducts(invocationId, dataset=None, datasetPropertyName=None, keywords=None, paginationInput=None, productStatusFilter=None, propertyFilter=None, sortOrder=None):
+def findProducts(invocationId, dataset=None, datasetPropertyName=None, keywords=None, paginationInput=None, productStatusFilter=None, propertyFilter=None, sortOrder=None, encoding="JSON"):
     root = etree.Element("findProductsRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
 
     #Really messed up! : http://developer.ebay.com/DevZone/product/CallRef/findProducts.html#Samples
     
     request=etree.tostring(root, pretty_print=True)
-    return get_response(findProducts.__name__, request)
+    return get_response(findProducts.__name__, request, encoding)
 
-def findProductsByCompatibility():
+def findProductsByCompatibility(encoding="JSON"):
     root = etree.Element("findProductsByCompatibilityRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
     
     #Problem with getProductDetails, findProductsByCompatibility and findProducts method: http://developer.ebay.com/DevZone/product/CallRef/index.html
     
     request=etree.tostring(root, pretty_print=True)
-    return get_response(findProductsByCompatibility.__name__, request)
+    return get_response(findProductsByCompatibility.__name__, request, encoding)
 
-def getProductDetails():
+def getProductDetails(encoding="JSON"):
     root = etree.Element("getProductDetailsRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
     
     #Problem with getProductDetails, findProductsByCompatibility and findProducts method: http://developer.ebay.com/DevZone/product/CallRef/index.html
     
     request=etree.tostring(root, pretty_print=True)
-    return get_response(getProductDetails.__name__, request)
+    return get_response(getProductDetails.__name__, request, encoding)
     
 
-def get_response(operation_name, data, **headers):
+def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "product")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
-                    "X-EBAY-SOA-SECURITY-APPNAME": app_name}
+                    "X-EBAY-SOA-SECURITY-APPNAME": app_name,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
    
     http_headers.update(headers)
     

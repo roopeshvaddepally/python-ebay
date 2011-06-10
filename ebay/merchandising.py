@@ -15,7 +15,7 @@ def getDeals(keywords, encoding="JSON"):
     request = etree.tostring(root, pretty_print=True)
     return get_response(getDeals.__name__, request, encoding)
     
-def getMostWatchedItems(encoding="JSON", affiliate=None, maxResults=None,categoryId=None):
+def getMostWatchedItems(affiliate=None, maxResults=None,categoryId=None, encoding="JSON"):
     root = etree.Element("getMostWatchedItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict
@@ -38,7 +38,7 @@ def getMostWatchedItems(encoding="JSON", affiliate=None, maxResults=None,categor
     return get_response(getMostWatchedItems.__name__, request, encoding)
 
 #Takes categoryId or itemId 
-def getRelatedCategoryItems(encoding="JSON", affiliate=None, maxResults=None,categoryId=None, itemFilter=None, itemId=None):
+def getRelatedCategoryItems(affiliate=None, maxResults=None,categoryId=None, itemFilter=None, itemId=None, encoding="JSON"):
     root = etree.Element("getRelatedCategoryItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict
@@ -71,7 +71,7 @@ def getRelatedCategoryItems(encoding="JSON", affiliate=None, maxResults=None,cat
     request = etree.tostring(root, pretty_print=True)
     return get_response(getRelatedCategoryItems.__name__, request, encoding)
     
-def getSimilarItems(encoding="JSON", affiliate=None, maxResults=None,categoryId=None, categoryIdExclude=None, endTimeFrom=None, endTimeTo=None,itemFilter=None, itemId=None, listingType=None, maxPrice=None):
+def getSimilarItems(affiliate=None, maxResults=None,categoryId=None, categoryIdExclude=None, endTimeFrom=None, endTimeTo=None,itemFilter=None, itemId=None, listingType=None, maxPrice=None, encoding="JSON"):
     root = etree.Element("getSimilarItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
     
     #affiliate is dict
@@ -126,7 +126,7 @@ def getSimilarItems(encoding="JSON", affiliate=None, maxResults=None,categoryId=
     request = etree.tostring(root, pretty_print=True)
     return get_response(getSimilarItems.__name__, request, encoding)
 
-def getTopSellingProducts(encoding="JSON", affiliate=None, maxResults=None):
+def getTopSellingProducts(affiliate=None, maxResults=None, encoding="JSON"):
     root = etree.Element("getTopSellingProductsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict

@@ -30,7 +30,8 @@ class TestBestMatchApi(unittest.TestCase):
                                                      itemFilter=itemFilter,\
                                                      outputSelector=outputSelector,\
                                                      postSearchItemFilter=postSearchItemFilter,\
-                                                     postSearchSellerFilter=postSearchSellerFilter)
+                                                     postSearchSellerFilter=postSearchSellerFilter, \
+                                                     encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -44,7 +45,8 @@ class TestBestMatchApi(unittest.TestCase):
                                                      itemFilter=itemFilter,\
                                                      outputSelector=outputSelector,\
                                                      postSearchItemFilter=postSearchItemFilter,\
-                                                     postSearchSellerFilter=postSearchSellerFilter)
+                                                     postSearchSellerFilter=postSearchSellerFilter, \
+                                                     encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -59,7 +61,8 @@ class TestBestMatchApi(unittest.TestCase):
                                                   itemFilter=itemFilter, \
                                                   outputSelector=outputSelector, \
                                                   postSearchItemFilter=postSearchItemFilter, \
-                                                  postSearchSellerFilter=postSearchSellerFilter)
+                                                  postSearchSellerFilter=postSearchSellerFilter, \
+                                                  encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -73,7 +76,8 @@ class TestBestMatchApi(unittest.TestCase):
                                                     itemFilter = itemFilter, \
                                                     outputSelector = outputSelector, \
                                                     postSearchItemFilter = postSearchItemFilter, \
-                                                    postSearchSellerFilter = postSearchSellerFilter)
+                                                    postSearchSellerFilter = postSearchSellerFilter, \
+                                                    encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -87,7 +91,9 @@ class TestBestMatchApi(unittest.TestCase):
                                                     itemFilter=itemFilter, \
                                                     outputSelector=outputSelector, \
                                                     postSearchItemFilter=postSearchItemFilter, \
-                                                    postSearchSellerFilter=postSearchSellerFilter)
+                                                    postSearchSellerFilter=postSearchSellerFilter, \
+                                                    encoding="XML")
+
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -101,7 +107,9 @@ class TestBestMatchApi(unittest.TestCase):
                                                    itemFilter=itemFilter, \
                                                    outputSelector=outputSelector, \
                                                    postSearchItemFilter=postSearchItemFilter, \
-                                                   postSearchSellerFilter=postSearchSellerFilter)
+                                                   postSearchSellerFilter=postSearchSellerFilter, \
+                                                   encoding="XML")
+
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")
@@ -112,7 +120,8 @@ class TestBestMatchApi(unittest.TestCase):
                                                   sellerUserName=sellerUserName, \
                                                   ignoreFeatured=ignoreFeatured, \
                                                   itemFilter=itemFilter, \
-                                                  paginationInput=paginationInput)
+                                                  paginationInput=paginationInput, \
+                                                  encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Success")

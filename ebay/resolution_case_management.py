@@ -5,7 +5,7 @@ from ConfigParser import ConfigParser
 from utils import relative
 
 # case retrieval calls
-def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFilterFrom=None, creationDateRangeFilterTo=None, itemFilter=None, paginationInput=None, sortOrder=None):
+def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFilterFrom=None, creationDateRangeFilterTo=None, itemFilter=None, paginationInput=None, sortOrder=None, encoding="JSON"):
     root = etree.Element("getUserCasesRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     #caseStatusFilter is a List
@@ -52,9 +52,9 @@ def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFi
         
         
     request = etree.tostring(root, pretty_print=True)
-    return get_response(getUserCases.__name__, request)
+    return get_response(getUserCases.__name__, request, encoding)
     
-def getEBPCaseDetail(caseId, caseType):
+def getEBPCaseDetail(caseId, caseType, encoding="JSON"):
     root = etree.Element("getEBPCaseDetailRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
@@ -64,11 +64,11 @@ def getEBPCaseDetail(caseId, caseType):
     type_elem.text = caseType
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(getEBPCaseDetail.__name__, request)
+    return get_response(getEBPCaseDetail.__name__, request, encoding)
     
 
 # Seller Option Calls
-def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=None):
+def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=None, encoding="JSON"):
     root = etree.Element("provideTrackingInfoRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
    
     caseId_elem = etree.SubElement(root, "caseId")
@@ -89,7 +89,7 @@ def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=
         
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(provideTrackingInfo.__name__, request)
+    return get_response(provideTrackingInfo.__name__, request, encoding)
     
 def issueFullRefund(caseId, caseType, comments=None):
     root = etree.Element("issueFullRefundRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
@@ -107,7 +107,7 @@ def issueFullRefund(caseId, caseType, comments=None):
     request = etree.tostring(root, pretty_print=True)
     return get_response(issueFullRefund.__name__, request)
     
-def offerOtherSolution(caseId, caseType, messageToBuyer):
+def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
     root = etree.Element("offerOtherSolutionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
@@ -120,9 +120,9 @@ def offerOtherSolution(caseId, caseType, messageToBuyer):
     messageToBuyer_elem.text = messageToBuyer
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(offerOtherSolution.__name__, request)
+    return get_response(offerOtherSolution.__name__, request, encoding)
     
-def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None):
+def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None, encoding="JSON"):
     root = etree.Element("escalateToCustomerSuppportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
@@ -142,9 +142,9 @@ def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None
         comments_elem.text = comments
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(escalateToCustomerSuppport.__name__, request)
+    return get_response(escalateToCustomerSuppport.__name__, request, encoding)
     
-def appealToCustomerSupport(caseId, caseType, appealReason, comments=None):
+def appealToCustomerSupport(caseId, caseType, appealReason, comments=None, encoding="JSON"):
     root = etree.Element("appealToCustomerSupportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     
     caseId_elem = etree.SubElement(root, "caseId")
@@ -161,11 +161,11 @@ def appealToCustomerSupport(caseId, caseType, appealReason, comments=None):
         comments_elem.text = comments
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(appealToCustomerSupport.__name__, request)
+    return get_response(appealToCustomerSupport.__name__, request, encoding)
     
 
 # Metadata calls
-def getActivityOptions(caseId, caseType):
+def getActivityOptions(caseId, caseType, encoding="JSON"):
     root = etree.Element("getActivityOptionsRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
@@ -175,7 +175,7 @@ def getActivityOptions(caseId, caseType):
     type_elem.text = caseType
     
     request = etree.tostring(root, pretty_print=True)
-    return get_response(getActivityOptions.__name__, request)
+    return get_response(getActivityOptions.__name__, request, encoding)
     
 def getVersion():
     root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
@@ -184,14 +184,15 @@ def getVersion():
     return get_response(getVersion.__name__, request)
 
 
-def get_response(operation_name, data, **headers):
+def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "resolution_case_management")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
-                    "X-EBAY-SOA-SECURITY-TOKEN": access_token}
+                    "X-EBAY-SOA-SECURITY-TOKEN": access_token,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
    
     http_headers.update(headers)
     
