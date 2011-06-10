@@ -9,7 +9,7 @@ spec2.values = [Value(text="8.0")]
 spec = [spec1, spec2]
 
 print findCompatibilitiesBySpecification(specification=spec, categoryId="170577") 
-print getProductCompatibilities()
+#print getProductCompatibilities()
 
 # print findProducts()
 # print findProductsByCompatibility()

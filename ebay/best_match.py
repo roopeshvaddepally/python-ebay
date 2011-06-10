@@ -67,7 +67,8 @@ def findBestMatchItemDetailsBySeller(categoryId, sellerUserName, ignoreFeatured=
         ignoreFeatured_elem = etree.SubElement(root, "ignoreFeatured")
         ignoreFeatured_elem.text = ignoreFeatured
 
-    #itemFilter is a List of dicts: [{paramName=PriceMin, paramValue=50, name=Currency, value=USD}]
+    #itemFilter is a List of dicts: [{"paramName" : "PriceMin", "paramValue" : "50", "name" : "Currency", "value" : "USD"}]
+
     if itemFilter:
         for item_filter in itemFilter:
             if len(item_filter)>0:
@@ -80,7 +81,7 @@ def findBestMatchItemDetailsBySeller(categoryId, sellerUserName, ignoreFeatured=
     if paginationInput and len(paginationInput)>0:
         paginationInput_elem = etree.SubElement(root, "paginationInput")
         for key in paginationInput.keys():
-            input_values_elem = etree.SubElement(paginationInput_elem, keys)
+            input_values_elem = etree.SubElement(paginationInput_elem, key)
             input_values_elem.text = paginationInput[key]
 
     request = etree.tostring(root, pretty_print=True)
@@ -147,7 +148,6 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
     # postSearchItemFilter is a List
     if postSearchItemFilter and len(postSearchItemFilter)>0:
         postSearchItemFilter_elem = etree.SubElement(root, "postSearchItemFilter")
-        postSearchItemFilter_elem.text = "PostSearchSellerFilter" 
         for item_filter in postSearchItemFilter:
             itemId_elem = etree.SubElement(postSearchItemFilter_elem, "itemId")
             itemId_elem.text = item_filter
@@ -155,10 +155,9 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
     # postSearchSellerFilter is a List
     if postSearchSellerFilter and len(postSearchSellerFilter)>0:
         postSearchSellerFilter_elem = etree.SubElement(root, "postSearchSellerFilter")
-        postSearchSellerFilter_elem.text = "PostSearchSellerFilter"
         for seller in postSearchSellerFilter:
-            postSearchSellerFilter_elem = etree.SubElement(postSearchSellerFilter_elem, "sellerUserName")
-            postSearchSellerFilter_elem.text = seller
+            seller_elem = etree.SubElement(postSearchSellerFilter_elem, "sellerUserName")
+            seller_elem.text = seller
 
     return root
     
@@ -166,7 +165,7 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
 def get_response(operation_name, data, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
-    access_token = config.get("auth", "token")
+    access_token = config.get("auth", "token_prod")
     endpoint = config.get("endpoints", "best_match")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,

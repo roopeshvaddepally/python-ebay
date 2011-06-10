@@ -13,9 +13,9 @@ class Value(object):
         self.url = url
 
 class Specification(object):
-    def __init__(self, propertyName, values): #fix it
+    def __init__(self, propertyName):
         self.propertyName = propertyName
-        self.values = values
+        self.values = [] 
 
 class CompatibilityPropertyFilter(object):
     def __init__(self, propertyName):
