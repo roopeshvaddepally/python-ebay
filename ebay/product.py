@@ -187,7 +187,7 @@ def getProductDetails():
     return get_response(getProductDetails.__name__, request)
     
 
-def get_response(operation_name, data):
+def get_response(operation_name, data, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
@@ -195,6 +195,8 @@ def get_response(operation_name, data):
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-APPNAME": app_name}
+   
+    http_headers.update(headers)
     
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)

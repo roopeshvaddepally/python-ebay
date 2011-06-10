@@ -106,14 +106,15 @@ def getDSRSummary(jobId):
     jobId_elem.text = jobId
     
     request = etree.tostring(root, pretty_print=True)
+    print request
     return get_response(getDSRSummary.__name__, request)
     
     
 
-def get_response(operation_name, data, **headers={}):
+def get_response(operation_name, data, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
-    access_token = config.get("auth", "token")
+    access_token = config.get("auth", "token_prod")
     endpoint = config.get("endpoints", "feedback")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,

@@ -163,7 +163,7 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
     return root
     
     
-def get_response(operation_name, data):
+def get_response(operation_name, data, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     access_token = config.get("auth", "token")
@@ -171,6 +171,8 @@ def get_response(operation_name, data):
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token}
+   
+    http_headers.update(headers)
     
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)

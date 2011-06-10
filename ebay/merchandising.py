@@ -145,7 +145,7 @@ def getTopSellingProducts(encoding="JSON", affiliate=None, maxResults=None):
     return get_response(getTopSellingProducts.__name__, request, encoding)
     
 
-def get_response(operation_name, data, encoding):
+def get_response(operation_name, data, encoding, **headers):
     endpoint='http://svcs.sandbox.ebay.com/MerchandisingService'
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
@@ -155,6 +155,8 @@ def get_response(operation_name, data, encoding):
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "EBAY-SOA-CONSUMER-ID": app_name,
                     "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
+   
+    http_headers.update(headers)
     
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)

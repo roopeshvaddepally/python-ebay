@@ -9,10 +9,11 @@ def getSearchKeywordsRecommendation(keywords, encoding="JSON"):
     root = etree.Element("getSearchKeywordsRecommendation", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     keywords_elem = etree.SubElement(root, "keywords")
     keywords_elem.text = keywords
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getSearchKeywordsRecommendation.__name__, request, encoding)
-    
+
+
 def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
     root = etree.Element("findItemsByKeywords", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -44,12 +45,11 @@ def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginati
             for key in item:
                 key_elem = etree.SubElement(itemFilter_elem, key)
                 key_elem.text = item[key]
-            
-    #sortOrder 
+
+    #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elemtext = sortOrder
-    
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -67,19 +67,19 @@ def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginati
                 key_elem = etree.SubElement(domainFilter_elem, key)
                 key_elem.text = item[key]
 
-    
     #outputSelector is a list
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item 
-    
+            outputSelector_elemtext = item
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByKeywords.__name__, request, encoding)
-    
+
+
 def findItemsByCategory(categoryId, affiliate=None, buyerPostalCode=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
     root = etree.Element("findItemsByCategory", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
+
     categoryId_elem = etree.SubElement(root, "categoryId")
     categoryId_elem.text = categoryId
 
@@ -108,12 +108,11 @@ def findItemsByCategory(categoryId, affiliate=None, buyerPostalCode=None, sortOr
             for key in item:
                 key_elem = etree.SubElement(itemFilter_elem, key)
                 key_elem.text = item[key]
-            
-    #sortOrder 
+
+    #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elemtext = sortOrder
-    
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -131,16 +130,16 @@ def findItemsByCategory(categoryId, affiliate=None, buyerPostalCode=None, sortOr
                 key_elem = etree.SubElement(domainFilter_elem, key)
                 key_elem.text = item[key]
 
-    
     #outputSelector is a list
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
             outputSelector_elemtext = item
-        
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByCategory.__name__, request, encoding)
-    
+
+
 def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPostalCode=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
     root = etree.Element("findItemsAdvanced", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -151,7 +150,7 @@ def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPosta
     if categoryId:
         categoryId_elem = etree.SubElement(root, "categoryId")
         categoryId_elem.text = categoryId
-    
+
     #affiliate is a dict
     if affiliate:
         affiliate_elem = etree.SubElement(root, "affiliate")
@@ -177,12 +176,11 @@ def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPosta
             for key in item:
                 key_elem = etree.SubElement(itemFilter_elem, key)
                 key_elem.text = item[key]
-            
-    #sortOrder 
+
+    #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elemtext = sortOrder
-    
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -200,16 +198,16 @@ def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPosta
                 key_elem = etree.SubElement(domainFilter_elem, key)
                 key_elem.text = item[key]
 
-    
     #outputSelector is a list
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
             outputSelector_elemtext = item
-            
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsAdvanced.__name__, request, encoding)
-    
+
+
 def findItemsByProduct(keywords=None, productId=None, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, itemFilter=None, outputSelector=None, encoding="JSON"):
     root = etree.Element("findItemsByProduct", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -220,7 +218,7 @@ def findItemsByProduct(keywords=None, productId=None, affiliate=None, buyerPosta
     if productId:
         productId_elem = etree.SubElement(root, "productId", type="string")
         productId_elem.text = productId
-    
+
     #affiliate is a dict
     if affiliate:
         affiliate_elem = etree.SubElement(root, "affiliate")
@@ -246,21 +244,22 @@ def findItemsByProduct(keywords=None, productId=None, affiliate=None, buyerPosta
             for key in item:
                 key_elem = etree.SubElement(itemFilter_elem, key)
                 key_elem.text = item[key]
-            
-    #sortOrder 
+
+    #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elemtext = sortOrder
-    
+
     #outputSelector is a list
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
             outputSelector_elemtext = item
-            
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByProduct.__name__, request, encoding)
-    
+
+
 def findItemsIneBayStores(keywords=None, storeName=None, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
     root = etree.Element("findItemsIneBayStores", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -271,7 +270,7 @@ def findItemsIneBayStores(keywords=None, storeName=None, affiliate=None, buyerPo
     if storeName:
         storeName_elem = etree.SubElement(root, "storeName")
         storeName_elem.text = storeName
-    
+
     #affiliate is a dict
     if affiliate:
         affiliate_elem = etree.SubElement(root, "affiliate")
@@ -297,8 +296,8 @@ def findItemsIneBayStores(keywords=None, storeName=None, affiliate=None, buyerPo
             for key in item:
                 key_elem = etree.SubElement(itemFilter_elem, key)
                 key_elem.text = item[key]
-            
-    #sortOrder 
+
+    #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elemtext = sortOrder
@@ -327,17 +326,19 @@ def findItemsIneBayStores(keywords=None, storeName=None, affiliate=None, buyerPo
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsIneBayStores.__name__, request, encoding)
-    
+
+
 def getHistograms(categoryId, encoding="JSON"):
     root = etree.Element("getHistograms", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     categoryId_elem = etree.SubElement(root, "categoryId")
     categoryId_elem.text = categoryId
-        
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getHistograms.__name__, request, encoding)
 
-def get_response(operation_name, data, encoding, http_headers_dict={}):
+
+def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
@@ -347,8 +348,8 @@ def get_response(operation_name, data, encoding, http_headers_dict={}):
                     "X-EBAY-SOA-SECURITY-APPNAME": app_name,
                     "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
 
-    http_headers.update(http_headers_dict)
-    
+    http_headers.update(headers)
+
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)
     data = res.read()
