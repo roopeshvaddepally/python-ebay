@@ -1,8 +1,9 @@
 import unittest
 from lxml import etree
 
-from ebay.best_match import *
+from ebay.feedback import *
 
+#WARNING: YOU WILL BE PLAYING WITH PRODUCTION EBAY.COM, SINCE THIS API IS NOT SUPPORTED IN SANDBOX
 
 categoryId = ["id1", "id2"]
 dateRangeFrom = "date"
@@ -18,13 +19,13 @@ transactionKey =  [{"itemId":"123", "transactionId":"72"}, {"itemId":"33", "tran
 
 class TestFeedbackhApi(unittest.TestCase):
     def test_createDSRSummaryByCategory(self):
-        result = findBestMatchItemDetailsAcrossStoresey(categoryId=categoryId, \
-                                                        dateRangeFrom=dateRangeFrom, \
-                                                        dateRangeTo=dateRangeTo, \
-                                                        dateRangeEventType=dateRangeEventType, \
-                                                        encoding=encoding)
+        result = createDSRSummaryByCategory(categoryId=categoryId, \
+                                            dateRangeFrom=dateRangeFrom, \
+                                            dateRangeTo=dateRangeTo, \
+                                            dateRangeEventType=dateRangeEventType, \
+                                            encoding=encoding)
         root = etree.fromstring(result)
-        ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
+        ack = root.find("ack").text
         self.assertEqual(ack, "Success")
 
 
