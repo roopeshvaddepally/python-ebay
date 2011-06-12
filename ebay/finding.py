@@ -14,7 +14,16 @@ def getSearchKeywordsRecommendation(keywords, encoding="JSON"):
     return get_response(getSearchKeywordsRecommendation.__name__, request, encoding)
 
 
-def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
+def findItemsByKeywords(keywords, \
+                        affiliate=None, \
+                        buyerPostalCode=None, \
+                        paginationInput=None, \
+                        sortOrder=None, \
+                        aspectFilter=None, \
+                        domainFilter=None, \
+                        itemFilter=None, \
+                        outputSelector=None, \
+                        encoding="JSON"):
     root = etree.Element("findItemsByKeywords", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     keywords_elem = etree.SubElement(root, "keywords")
@@ -38,7 +47,7 @@ def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginati
             key_elem = etree.SubElement(paginationInput_elem, key)
             key_elem.text = paginationInput[key]
 
-    #itenFilter is a list of dicts
+    #itemFilter is a list of dicts
     if itemFilter:
         for item in itemFilter:
             itemFilter_elem = etree.SubElement(root, "itemFilter")
@@ -77,7 +86,16 @@ def findItemsByKeywords(keywords, affiliate=None, buyerPostalCode=None, paginati
     return get_response(findItemsByKeywords.__name__, request, encoding)
 
 
-def findItemsByCategory(categoryId, affiliate=None, buyerPostalCode=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
+def findItemsByCategory(categoryId, \
+                        affiliate=None, \
+                        buyerPostalCode=None, \
+                        sortOrder=None, \
+                        paginationInput = None, \
+                        aspectFilter=None, \
+                        domainFilter=None, \
+                        itemFilter=None, \
+                        outputSelector=None, \
+                        encoding="JSON"):
     root = etree.Element("findItemsByCategory", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     categoryId_elem = etree.SubElement(root, "categoryId")
@@ -140,7 +158,17 @@ def findItemsByCategory(categoryId, affiliate=None, buyerPostalCode=None, sortOr
     return get_response(findItemsByCategory.__name__, request, encoding)
 
 
-def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPostalCode=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
+def findItemsAdvanced(keywords=None, \
+                      categoryId=None, \
+                      affiliate=None, \
+                      buyerPostalCode=None, \
+                      paginationInput = None, \
+                      sortOrder=None, \
+                      aspectFilter=None, \
+                      domainFilter=None, \
+                      itemFilter=None, \
+                      outputSelector=None, \
+                      encoding="JSON"):
     root = etree.Element("findItemsAdvanced", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
@@ -208,7 +236,15 @@ def findItemsAdvanced(keywords=None, categoryId=None, affiliate=None, buyerPosta
     return get_response(findItemsAdvanced.__name__, request, encoding)
 
 
-def findItemsByProduct(keywords=None, productId=None, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, itemFilter=None, outputSelector=None, encoding="JSON"):
+def findItemsByProduct(keywords=None, \
+                       productId=None, \
+                       affiliate=None, \
+                       buyerPostalCode=None, \
+                       paginationInput=None, \
+                       sortOrder=None, \
+                       itemFilter=None, \
+                       outputSelector=None, \
+                       encoding="JSON"):
     root = etree.Element("findItemsByProduct", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
@@ -260,7 +296,17 @@ def findItemsByProduct(keywords=None, productId=None, affiliate=None, buyerPosta
     return get_response(findItemsByProduct.__name__, request, encoding)
 
 
-def findItemsIneBayStores(keywords=None, storeName=None, affiliate=None, buyerPostalCode=None, paginationInput=None, sortOrder=None, aspectFilter=None, domainFilter=None, itemFilter=None, outputSelector=None, encoding="JSON"):
+def findItemsIneBayStores(keywords=None, \
+                          storeName=None, \
+                          affiliate=None, \
+                          buyerPostalCode=None, \
+                          paginationInput=None, \
+                          sortOrder=None, \
+                          aspectFilter=None, \
+                          domainFilter=None, \
+                          itemFilter=None, \
+                          outputSelector=None, \
+                          encoding="JSON"):
     root = etree.Element("findItemsIneBayStores", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
