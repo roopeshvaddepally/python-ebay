@@ -10,9 +10,10 @@ itemFilter = [{"paramName": "PriceMin", "paramValue": "50", "name": "Currency", 
 outputSelector = ["FirstPageSummary", "SellerInfo"]
 postSearchItemFilter = ["id1", "id2"]
 postSearchSellerFilter = ["user1", "user2"]
-siteResultsPerPage = "10"
+Siteresultsperpage = "10"
 entriesPerPage = "10"
 paginationInput = {"entriesPerPage": "5", "pageNumber": "10"}
+
 
 #<!-- Call-specific Input Fields -->
 categoryId = "1"

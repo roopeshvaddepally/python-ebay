@@ -29,18 +29,18 @@ class TestFeedbackhApi(unittest.TestCase):
         self.assertEqual(ack, "Success")
 
 
-        def test_createDSRSummaryByPeriod(self):
-            result = createDSRSummaryByPeriod(dateRangeFrom=dateRangeFrom, \
+    def test_createDSRSummaryByPeriod(self):
+        result = createDSRSummaryByPeriod(dateRangeFrom=dateRangeFrom, \
                                               dateRangeTo=dateRangeTo, \
                                               dateRangeEventType=dateRangeEventType, \
                                               encoding=encoding)
-            root = etree.fromstring(result)
-            ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
-            self.assertEqual(ack, "Success")
+        root = etree.fromstring(result)
+        ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
+        self.assertEqual(ack, "Success")
 
 
-        def test_createDSRSummaryByShippingDetail(self):
-            result = createDSRSummaryByShippingDetail(dateRangeFrom=dateRangeFrom, \
+    def test_createDSRSummaryByShippingDetail(self):
+        result = createDSRSummaryByShippingDetail(dateRangeFrom=dateRangeFrom, \
                                                       dateRangeTo=dateRangeTo, \
                                                       dateRangeEventType=dateRangeEventType, \
                                                       shippingCostType=shippingCostType, \
@@ -48,16 +48,16 @@ class TestFeedbackhApi(unittest.TestCase):
                                                       shippingService=shippingService, \
                                                       shipToCountry=shipToCountry, \
                                                       encoding=encoding)
-            root = etree.fromstring(result)
-            ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
-            self.assertEqual(ack, "Success")
+        root = etree.fromstring(result)
+        ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
+        self.assertEqual(ack, "Success")
 
 
-        def test_createDSRSummaryByTransaction(self):
-            result = createDSRSummaryByTransaction(transactionKey=transactionKey, encoding=encoding)
-            root = etree.fromstring(result)
-            ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
-            self.assertEqual(ack, "Success")
+    def test_createDSRSummaryByTransaction(self):
+        result = createDSRSummaryByTransaction(transactionKey=transactionKey, encoding=encoding)
+        root = etree.fromstring(result)
+        ack = root.find("{http://www.ebay.com/marketplace/services}ack").text
+        self.assertEqual(ack, "Success")
 
 
 if __name__ == '__main__':
