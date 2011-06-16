@@ -1,4 +1,4 @@
-paginationInputimport urllib2
+import urllib2
 from lxml import etree
 
 from ConfigParser import ConfigParser
@@ -26,7 +26,7 @@ def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFi
         creationDateRangeFilter_elem = etree.SubElement(root, "creationDateRangeFilter")
 
         creationDateRangeFilterFrom_elem = etree.SubElement(creationDateRangeFilter_elem, "fromDate")
-        creationDateRangeFilterFrom_elem.text = creationDateRangeFilterFrom 
+        creationDateRangeFilterFrom_elem.text = creationDateRangeFilterFrom
         creationDateRangeFilterTo_elem = etree.SubElement(creationDateRangeFilter_elem, "toDate")
         creationDateRangeFilterTo_elem.text = creationDateRangeFilterTo
 
@@ -34,12 +34,12 @@ def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFi
     #itemFilter is a dict: {itemId:123, transactionId:72}
     if itemFilter and len(itemFilter)>0:
         itemFilter_elem = etree.SubElement(root, "itemFilter")
-        for key in itemFilter.keys(): 
+        for key in itemFilter.keys():
             itemId_elem = etree.SubElement(itemFilter_elem, key)
             itemId_elem.text =  itemFilter[key]
 
 
-    # paginationInput is a dict: {entriesPerPage:5, pageNumber:10}    
+    # paginationInput is a dict: {entriesPerPage:5, pageNumber:10}
     if paginationInput and len(paginationInput)>0:
         paginationInput_elem = etree.SubElement(root, "paginationInput")
         for key in paginationInput.keys():
@@ -49,11 +49,11 @@ def getUserCases(caseStatusFilter=None, caseTypeFilter=None, creationDateRangeFi
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elem.text = sortOrder
-        
-        
+
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getUserCases.__name__, request, encoding)
-    
+
 def getEBPCaseDetail(caseId, caseType, encoding="JSON"):
     root = etree.Element("getEBPCaseDetailRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -62,15 +62,15 @@ def getEBPCaseDetail(caseId, caseType, encoding="JSON"):
     id_elem.text = caseId
     type_elem = etree.SubElement(caseId_elem, "type")
     type_elem.text = caseType
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getEBPCaseDetail.__name__, request, encoding)
-    
+
 
 # Seller Option Calls
 def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=None, encoding="JSON"):
     root = etree.Element("provideTrackingInfoRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-   
+
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
     id_elem.text = caseId
@@ -79,34 +79,34 @@ def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=
 
     carrierUsed_elem = etree.SubElement(root, "carrierUsed")
     carrierUsed_elem.text = carrierUsed
-    
+
     trackingNumber_elem = etree.SubElement(root, "trackingNumber")
     trackingNumber_elem.text = trackingNumber
 
     if comments:
         comments_elem = etree.SubElement(root, "comments")
         comments_elem.text = comments
-        
-    
+
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(provideTrackingInfo.__name__, request, encoding)
-    
+
 def issueFullRefund(caseId, caseType, comments=None):
     root = etree.Element("issueFullRefundRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
+
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
     id_elem.text = caseId
     type_elem = etree.SubElement(caseId_elem, "type")
     type_elem.text = caseType
-    
+
     if comments:
         comments_elem = etree.SubElement(root, "comments")
         comments_elem.text = comments
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(issueFullRefund.__name__, request)
-    
+
 def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
     root = etree.Element("offerOtherSolutionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -115,13 +115,13 @@ def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
     id_elem.text = caseId
     type_elem = etree.SubElement(caseId_elem, "type")
     type_elem.text = caseType
-    
+
     messageToBuyer_elem = etree.SubElement(root, "messageToBuyer")
     messageToBuyer_elem.text = messageToBuyer
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(offerOtherSolution.__name__, request, encoding)
-    
+
 def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None, encoding="JSON"):
     root = etree.Element("escalateToCustomerSuppportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -130,23 +130,23 @@ def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None
     id_elem.text = caseId
     type_elem = etree.SubElement(caseId_elem, "type")
     type_elem.text = caseType
-    
+
     #escalationReason is a dict
     escalationReason_elem = etree.SubElement(root, "escalationReason")
     for key in escalationReason.keys():
         key_elem = etree.SubElement(root, key)
         key_elem.text = escalationReason[key]
-    
+
     if comments:
         comments_elem = etree.SubElement(root, "comments")
         comments_elem.text = comments
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(escalateToCustomerSuppport.__name__, request, encoding)
-    
+
 def appealToCustomerSupport(caseId, caseType, appealReason, comments=None, encoding="JSON"):
     root = etree.Element("appealToCustomerSupportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
+
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
     id_elem.text = caseId
@@ -154,15 +154,15 @@ def appealToCustomerSupport(caseId, caseType, appealReason, comments=None, encod
     type_elem.text = caseType
 
     appealReason_elem = etree.SubElement(root, "appealReason")
-    appealReason_elem.text = appealReason 
-    
+    appealReason_elem.text = appealReason
+
     if comments:
         comments_elem = etree.SubElement(root, "comments")
         comments_elem.text = comments
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(appealToCustomerSupport.__name__, request, encoding)
-    
+
 
 # Metadata calls
 def getActivityOptions(caseId, caseType, encoding="JSON"):
@@ -173,13 +173,13 @@ def getActivityOptions(caseId, caseType, encoding="JSON"):
     id_elem.text = caseId
     type_elem = etree.SubElement(caseId_elem, "type")
     type_elem.text = caseType
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getActivityOptions.__name__, request, encoding)
-    
+
 def getVersion():
     root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
-    
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getVersion.__name__, request)
 
@@ -193,9 +193,9 @@ def get_response(operation_name, data, encoding, **headers):
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-TOKEN": access_token,
                     "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
-   
+
     http_headers.update(headers)
-    
+
     req = urllib2.Request(endpoint, data, http_headers)
     res = urllib2.urlopen(req)
     data = res.read()

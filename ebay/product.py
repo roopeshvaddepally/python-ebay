@@ -16,7 +16,7 @@ def findCompatibilitiesBySpecification(specification, \
 
     root = etree.Element("findCompatibilitiesBySpecificationRequest", xmlns="http://www.ebay.com/marketplace/marketplacecatalog/v1/services")
 
-    #specification is an object in Utils.py
+    #specification is an array of objects in Utils.py
     for spec in specification:
         specification_elem = etree.SubElement(root, "specification")
         propertyName_elem = etree.SubElement(specification_elem,"propertyName")
@@ -26,17 +26,20 @@ def findCompatibilitiesBySpecification(specification, \
             value_elem = etree.SubElement(specification_elem, "value")
             if v.number:
                 number_elem = etree.SubElement(value_elem, "number")
-                number_elem.text = v.number
+                subValue_elem = etree.SubElement(number_elem, "value")
+                subValue_elem.text = v.number
 
             if v.text:
                 text_elem = etree.SubElement(value_elem, "text")
-                text_elem.text = v.text
+                subValue_elem = etree.SubElement(text_elem, "value")
+                subValue_elem.text = v.text
 
             if v.url:
                 url_elem = etree.SubElement(value_elem, "URL")
-                url_elem.text = v.url
+                subValue_elem = etree.SubElement(url_elem, "value")
+                subValue_elem.text = v.url
 
-    #compatibilityPropertyFilter is an object in Utils.py
+    #compatibilityPropertyFilter is an array of objects in Utils.py
     if compatibilityPropertyFilter:
         for cp_filter in compatibilityPropertyFilter:
             compatibilityPropertyFilter_elem = etree.SubElement(root, "compatibilityPropertyFilter")
@@ -47,15 +50,19 @@ def findCompatibilitiesBySpecification(specification, \
                 value_elem = etree.SubElement(compatibilityPropertyFilter_elem, "value")
                 if v.number:
                     number_elem = etree.SubElement(value_elem, "number")
-                    number_elem.text = v.number
+                    subValue_elem = etree.SubElement(number_elem, "value")
+                    subValue_elem.text = v.number
 
                 if v.text:
                     text_elem = etree.SubElement(value_elem, "text")
-                    text_elem.text = v.text
+                    subValue_elem = etree.SubElement(text_elem, "value")
+                    subValue_elem.text = v.text
 
                 if v.url:
                     url_elem = etree.SubElement(value_elem, "URL")
-                    url_elem.text = v.url
+                    subValue_elem = etree.SubElement(url_elem, "value")
+                    subValue_elem.text = v.url
+
 
     categoryId_elem = etree.SubElement(root, "categoryId")
     categoryId_elem.text = categoryId
@@ -64,13 +71,13 @@ def findCompatibilitiesBySpecification(specification, \
     if dataSet:
         for ds in dataSet:
             ds_elem = etree.SubElement(root, "dataSet")
-            ds_elem.text = dataSet
+            ds_elem.text = ds
 
     #datasetPropertyName is a List
     if datasetPropertyName:
         for dpn in datasetPropertyName:
             dpn_elem = etree.SubElement(root, "datasetPropertyName")
-            dpn_elem = datasetPropertyName
+            dpn_elem.text = dpn
 
     if exactMatch:
         exactMatch_elem = etree.SubElement(root, "exactMatch")
@@ -93,11 +100,11 @@ def findCompatibilitiesBySpecification(specification, \
             order_elem = etree.SubElement(subSortOrder_elem, "order")
             order_elem.text = so.order
             propertyName_elem = etree.SubElement(subSortOrder_elem, "propertyName")
-            subSortOrder_elem.text = so.propertyName
+            propertyName_elem.text = so.propertyName
 
 
     request=etree.tostring(root, pretty_print=True)
-
+    print request
     return get_response(findCompatibilitiesBySpecification.__name__, request, encoding)
 
 
@@ -115,7 +122,7 @@ def getProductCompatibilities(datasetPropertyName, \
     if datasetPropertyName:
         for dpn in datasetPropertyName:
             dpn_elem = etree.SubElement(root, "datasetPropertyName")
-            dpn_elem = datasetPropertyName
+            dpn_elem.text = dpn
 
     #compatibilityPropertyFilter is an object in Utils.py
     if compatibilityPropertyFilter:
@@ -142,7 +149,7 @@ def getProductCompatibilities(datasetPropertyName, \
     if dataSet:
         for ds in dataSet:
             ds_elem = etree.SubElement(root, "dataSet")
-            ds_elem.text = dataSet
+            ds_elem.text = ds
 
     #disabledProductFilter is dict
     if disabledProductFilter:
@@ -174,7 +181,7 @@ def getProductCompatibilities(datasetPropertyName, \
             order_elem = etree.SubElement(subSortOrder_elem, "order")
             order_elem.text = so.order
             propertyName_elem = etree.SubElement(subSortOrder_elem, "propertyName")
-            subSortOrder_elem.text = so.propertyName
+            propertyName_elem.text = so.propertyName
 
     request=etree.tostring(root, pretty_print=True)
     return get_response(getProductCompatibilities.__name__, request, encoding)
