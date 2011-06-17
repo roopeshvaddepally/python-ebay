@@ -17,7 +17,6 @@ caseType = "2"
 carrierUsed = "US"
 trackingNumber = "3"
 comments = "MyComment"
-
 messageToBuyer = "Hello Buyer"
 escalationReason = {"sellerSNADReason" : "BUYER_STILL_UNHAPPY_AFTER_REFUND"}
 appealReason = "Buyer is dumb!"
@@ -26,6 +25,7 @@ encoding = "XML"
 
 
 class TestResolutionCaseManagementApi(unittest.TestCase):
+
     def test_getUserCases(self):
         result = getUserCases(caseStatusFilter = caseStatusFilter,
                               caseTypeFilter = caseTypeFilter,

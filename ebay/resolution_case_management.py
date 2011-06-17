@@ -129,6 +129,7 @@ def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
     request = etree.tostring(root, pretty_print=True)
     return get_response(offerOtherSolution.__name__, request, encoding)
 
+#NOT WORKING on SANDBOX, need to investigate
 def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None, encoding="JSON"):
     root = etree.Element("escalateToCustomerSuppportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
@@ -149,7 +150,6 @@ def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None
         comments_elem.text = comments
 
     request = etree.tostring(root, pretty_print=True)
-    print request
     return get_response(escalateToCustomerSuppport.__name__, request, encoding)
 
 def appealToCustomerSupport(caseId, caseType, appealReason, comments=None, encoding="JSON"):
