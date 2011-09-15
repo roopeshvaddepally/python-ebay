@@ -9,8 +9,9 @@ How to Install
 1. Download [python-ebay][1] 
 2. Rename: `config/config.ini.example` to `config/config.ini`  
 3. Configure `config.ini` to it's required values. You need to generate the values from eBay Developer Program [here][4]   
-4. `python setup.py`
-   This will install the package.  
+4. `python setup.py install`
+   This will install the package. You may need to install additional libs and sources.
+   Copy the config to /usr/local/lib/python2.6/dist-packages/python_ebay-XXX
 5. How to Use (see all operations in /examples):  
 `from ebay.shopping import FindProducts`  
 `print FindProducts("JSON", "pen", "false", "10")`

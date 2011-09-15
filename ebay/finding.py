@@ -5,13 +5,13 @@ from ConfigParser import ConfigParser
 from utils import relative
 
 
-def getSearchKeywordsRecommendation(keywords, encoding="JSON"):
+def getSearchKeywordsRecommendation(keywords, encoding="JSON", global_id="EBAY-US"):
     root = etree.Element("getSearchKeywordsRecommendation", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     keywords_elem = etree.SubElement(root, "keywords")
     keywords_elem.text = keywords
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(getSearchKeywordsRecommendation.__name__, request, encoding)
+    return get_response(getSearchKeywordsRecommendation.__name__, request, encoding, global_id)
 
 
 def findItemsByKeywords(keywords, \
@@ -23,7 +23,8 @@ def findItemsByKeywords(keywords, \
                         domainFilter=None, \
                         itemFilter=None, \
                         outputSelector=None, \
-                        encoding="JSON"):
+                        encoding="JSON", \
+                        global_id="EBAY-US"):
     root = etree.Element("findItemsByKeywords", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     keywords_elem = etree.SubElement(root, "keywords")
@@ -83,7 +84,7 @@ def findItemsByKeywords(keywords, \
             outputSelector_elemtext = item
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findItemsByKeywords.__name__, request, encoding)
+    return get_response(findItemsByKeywords.__name__, request, encoding, global_id)
 
 
 def findItemsByCategory(categoryId, \
@@ -95,7 +96,8 @@ def findItemsByCategory(categoryId, \
                         domainFilter=None, \
                         itemFilter=None, \
                         outputSelector=None, \
-                        encoding="JSON"):
+                        encoding="JSON", \
+                        global_id="EBAY-US"):
     root = etree.Element("findItemsByCategory", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     categoryId_elem = etree.SubElement(root, "categoryId")
@@ -155,7 +157,7 @@ def findItemsByCategory(categoryId, \
             outputSelector_elemtext = item
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findItemsByCategory.__name__, request, encoding)
+    return get_response(findItemsByCategory.__name__, request, encoding, global_id)
 
 
 def findItemsAdvanced(keywords=None, \
@@ -168,7 +170,8 @@ def findItemsAdvanced(keywords=None, \
                       domainFilter=None, \
                       itemFilter=None, \
                       outputSelector=None, \
-                      encoding="JSON"):
+                      encoding="JSON", \
+                      global_id="EBAY-US"):
     root = etree.Element("findItemsAdvanced", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
@@ -233,7 +236,7 @@ def findItemsAdvanced(keywords=None, \
             outputSelector_elemtext = item
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findItemsAdvanced.__name__, request, encoding)
+    return get_response(findItemsAdvanced.__name__, request, encoding, global_id)
 
 
 def findItemsByProduct(keywords=None, \
@@ -244,7 +247,8 @@ def findItemsByProduct(keywords=None, \
                        sortOrder=None, \
                        itemFilter=None, \
                        outputSelector=None, \
-                       encoding="JSON"):
+                       encoding="JSON", \
+                       global_id="EBAY-US"):
     root = etree.Element("findItemsByProduct", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
@@ -293,7 +297,7 @@ def findItemsByProduct(keywords=None, \
             outputSelector_elemtext = item
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findItemsByProduct.__name__, request, encoding)
+    return get_response(findItemsByProduct.__name__, request, encoding, global_id)
 
 
 def findItemsIneBayStores(keywords=None, \
@@ -306,7 +310,8 @@ def findItemsIneBayStores(keywords=None, \
                           domainFilter=None, \
                           itemFilter=None, \
                           outputSelector=None, \
-                          encoding="JSON"):
+                          encoding="JSON", \
+                          global_id="EBAY-US"):
     root = etree.Element("findItemsIneBayStores", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     if keywords:
@@ -371,20 +376,20 @@ def findItemsIneBayStores(keywords=None, \
             outputSelector_elemtext = item
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(findItemsIneBayStores.__name__, request, encoding)
+    return get_response(findItemsIneBayStores.__name__, request, encoding, global_id)
 
 
-def getHistograms(categoryId, encoding="JSON"):
+def getHistograms(categoryId, encoding="JSON", global_id="EBAY-US"):
     root = etree.Element("getHistograms", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     categoryId_elem = etree.SubElement(root, "categoryId")
     categoryId_elem.text = categoryId
 
     request = etree.tostring(root, pretty_print=True)
-    return get_response(getHistograms.__name__, request, encoding)
+    return get_response(getHistograms.__name__, request, encoding, global_id)
 
 
-def get_response(operation_name, data, encoding, **headers):
+def get_response(operation_name, data, encoding, global_id, **headers):
     config = ConfigParser()
     config.read(relative("..", "config", "config.ini"))
     app_name = config.get("keys", "app_name")
@@ -392,7 +397,9 @@ def get_response(operation_name, data, encoding, **headers):
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-APPNAME": app_name,
-                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding,
+                    "X-EBAY-SOA-GLOBAL-ID": global_id
+    }
 
     http_headers.update(headers)
 
