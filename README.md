@@ -28,3 +28,10 @@ This list might not be current, please refer for the most recent list [here][3] 
   [2]: https://github.com/roopeshvaddepally/python-ebay/wiki/List-of-eBay-APIs
   [3]: http://developer.ebay.com/products/overview
   [4]: http://developer.ebay.com/quickstartguide/
+
+
+License
+=======
+
+Apache License, Version 2.0
+Please refer to details here: http://www.apache.org/licenses/LICENSE-2.0.html
