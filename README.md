@@ -7,7 +7,7 @@ This project intends to create a simple python wrapper around eBay APIs.
 How to Install
 ==============
 1. Download [python-ebay][1] 
-2. Rename: `config/config.ini.example` to `config/config.ini`  
+2. Rename: `config.ini.example` to `config/config.ini`
 3. Configure `config.ini` to it's required values. You need to generate the values from eBay Developer Program [here][4]   
 4. `python setup.py install`
    This will install the package.  
