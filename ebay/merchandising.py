@@ -167,7 +167,7 @@ def getTopSellingProducts(affiliate=None, maxResults=None, encoding="JSON"):
 def get_response(operation_name, data, encoding, **headers):
     endpoint='http://svcs.sandbox.ebay.com/MerchandisingService'
     config = ConfigParser()
-    config.read(relative("..", "config", "config.ini"))
+    config.read(relative("config.ini"))
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "merchandising")
 

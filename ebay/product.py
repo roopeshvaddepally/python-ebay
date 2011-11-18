@@ -222,7 +222,7 @@ def getProductDetails(encoding="JSON"):
 
 def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
-    config.read(relative("..", "config", "config.ini"))
+    config.read(relative("config.ini"))
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "product")
 

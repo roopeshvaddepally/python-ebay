@@ -55,7 +55,7 @@ def Logout(SessionID, SessionData, MessageID=None, encoding="JSON"):
 
 def get_response(user_params):
     config = ConfigParser()
-    config.read(relative("..", "config", "config.ini"))
+    config.read(relative("config.ini"))
 
     app_id = config.get("keys", "app_name")
     site_id = config.get("call", "siteid")

@@ -111,7 +111,7 @@ def getDSRSummary(jobId, encoding="JSON"):
 
 def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
-    config.read(relative("..", "config", "config.ini"))
+    config.read(relative("config.ini"))
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "feedback")
 
