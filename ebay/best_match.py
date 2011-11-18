@@ -186,7 +186,7 @@ def getVersion():
     root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
     request=etree.tostring(root, pretty_print=True)
 
-    return get_response(getVersion.__name__, request)
+    return get_response(getVersion.__name__, request, encoding="JSON")
 
 def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, categoryId=None, entriesPerPage=None, ignoreFeatured=None, itemFilter=None, outputSelector=None, postSearchItemFilter=None, postSearchSellerFilter=None):
 
@@ -249,7 +249,7 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
 def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("config.ini"))
-    access_token = config.get("auth", "token_prod")
+    access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "best_match")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,

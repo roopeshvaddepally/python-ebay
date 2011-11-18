@@ -7,7 +7,7 @@ import sys, os
 # string in below ...
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
-    
+
 setup(name='python-ebay',
       version="0.1",
       description="Python Wrapper for eBay API",
@@ -32,4 +32,5 @@ setup(name='python-ebay',
       entry_points="""
       # -*- Entry points: -*-
       """,
-      )
+     data_files=[('ebay', ['ebay/config.ini'])],
+)

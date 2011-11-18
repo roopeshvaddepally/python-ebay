@@ -13,7 +13,7 @@ How to Install
    This will install the package.  
 5. How to Use (see all operations in /examples):  
 `from ebay.shopping import FindProducts`  
-`print FindProducts("JSON", "pen", "false", "10")`
+`print FindProducts("pen", "false", "10", "JSON")`
 
 
 API Details
