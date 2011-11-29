@@ -58,7 +58,7 @@ def findItemsByKeywords(keywords, \
     #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
-        sortOrder_elemtext = sortOrder
+        sortOrder_elem.text = sortOrder
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -80,7 +80,7 @@ def findItemsByKeywords(keywords, \
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item
+            outputSelector_elem.text = item
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByKeywords.__name__, request, encoding)
@@ -130,7 +130,7 @@ def findItemsByCategory(categoryId, \
     #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
-        sortOrder_elemtext = sortOrder
+        sortOrder_elem.text = sortOrder
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -152,7 +152,7 @@ def findItemsByCategory(categoryId, \
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item
+            outputSelector_elem.text = item
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByCategory.__name__, request, encoding)
@@ -208,7 +208,7 @@ def findItemsAdvanced(keywords=None, \
     #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
-        sortOrder_elemtext = sortOrder
+        sortOrder_elem.text = sortOrder
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -230,7 +230,7 @@ def findItemsAdvanced(keywords=None, \
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item
+            outputSelector_elem.text = item
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsAdvanced.__name__, request, encoding)
@@ -284,13 +284,13 @@ def findItemsByProduct(keywords=None, \
     #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
-        sortOrder_elemtext = sortOrder
+        sortOrder_elem.text = sortOrder
 
     #outputSelector is a list
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item
+            outputSelector_elem.text = item
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsByProduct.__name__, request, encoding)
@@ -346,7 +346,7 @@ def findItemsIneBayStores(keywords=None, \
     #sortOrder
     if sortOrder:
         sortOrder_elem = etree.SubElement(root, "sortOrder")
-        sortOrder_elemtext = sortOrder
+        sortOrder_elem.text = sortOrder
 
     #aspectFilter is a list of dicts
     if aspectFilter:
@@ -368,7 +368,7 @@ def findItemsIneBayStores(keywords=None, \
     if outputSelector:
         for item in outputSelector:
             outputSelector_elem = etree.SubElement(root, "outputSelector")
-            outputSelector_elemtext = item
+            outputSelector_elem.text = item
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(findItemsIneBayStores.__name__, request, encoding)
