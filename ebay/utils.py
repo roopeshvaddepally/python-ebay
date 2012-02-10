@@ -1,5 +1,23 @@
 from os.path import join, dirname, abspath
+import urllib2
+from ConfigParser import ConfigParser
 
+def get_endpoint_response(endpoint_name, operation_name, data, encoding, **headers):
+    config = ConfigParser()
+    config.read(relative("config.ini"))
+    app_name = config.get("keys", "app_name")
+    endpoint = config.get("endpoints", endpoint_name)
+
+    http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
+                    "X-EBAY-SOA-SECURITY-APPNAME": app_name,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
+
+    http_headers.update(headers)
+
+    req = urllib2.Request(endpoint, data, http_headers)
+    res = urllib2.urlopen(req)
+    data = res.read()
+    return data
 
 def relative(*paths):
     return join(dirname(abspath(__file__)), *paths)
