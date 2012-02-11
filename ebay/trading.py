@@ -1,5 +1,6 @@
 from utils import get_endpoint_response, get_config_value
 from lxml import etree
+from xml.dom.minidom import parse, parseString, Node
 
 def getCategory(query='', \
                 parentId=None, \
@@ -71,8 +72,32 @@ def getCategory(query='', \
         
     #need to specify xml declaration and encoding or else will get error
     request = etree.tostring(root, pretty_print=False, xml_declaration=True, encoding="utf-8")
-    return get_response("GetCategories", request, encoding)
+    response = get_response("GetCategories", request, encoding)
+    
+    if query:
+        return _filter_categories(response, query)
+    else:
+        return response
 
+def _get_single_value(node, tag):
+    nl=node.getElementsByTagName(tag)
+    if len(nl) > 0:
+        tagNode = nl[0]
+        if tagNode.hasChildNodes():
+            return tagNode.firstChild.nodeValue
+    return -1
+
+def _filter_categories(xml_data, query):
+    to_return = [] #TODO: in future would be cool if categories were objects
+    if xml_data and query:
+        lquery = query.lower()
+        categoryList = parseString(xml_data)
+        catNodes = categoryList.getElementsByTagName("Category")
+        for node in catNodes:
+            name = _get_single_value(node, "CategoryName")
+            if name.lower().find(lquery) != -1:
+                to_return.append(node.toxml()) #add node to the list
+    return to_return
 
 def get_response(operation_name, data, encoding, **headers):
     return get_endpoint_response("trading", operation_name, data, encoding, **headers)

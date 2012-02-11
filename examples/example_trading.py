@@ -1,5 +1,6 @@
 from ebay.trading import getCategory
 
 
-  
-print(getCategory("Electronics"))
+print(getCategory())  
+print(getCategory("Antiques"))
+print(getCategory("&"))
