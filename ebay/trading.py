@@ -2,8 +2,7 @@ from utils import get_endpoint_response, get_config_value
 from lxml import etree
 from xml.dom.minidom import parse, parseString, Node
 
-def getCategory(query='', \
-                parentId=None, \
+def getCategories(parentId=None, \
                 detailLevel='ReturnAll', \
                 errorLanguage=None, \
                 messageId=None, \
@@ -74,10 +73,7 @@ def getCategory(query='', \
     request = etree.tostring(root, pretty_print=False, xml_declaration=True, encoding="utf-8")
     response = get_response("GetCategories", request, encoding)
     
-    if query:
-        return _filter_categories(response, query)
-    else:
-        return response
+    return response
 
 def _get_single_value(node, tag):
     nl=node.getElementsByTagName(tag)
@@ -87,16 +83,23 @@ def _get_single_value(node, tag):
             return tagNode.firstChild.nodeValue
     return -1
 
-def _filter_categories(xml_data, query):
+def filterCategories(xml_data, query=''):
     to_return = [] #TODO: in future would be cool if categories were objects
-    if xml_data and query:
-        lquery = query.lower()
+    if xml_data:
         categoryList = parseString(xml_data)
         catNodes = categoryList.getElementsByTagName("Category")
         for node in catNodes:
-            name = _get_single_value(node, "CategoryName")
-            if name.lower().find(lquery) != -1:
-                to_return.append(node.toxml()) #add node to the list
+            addNode = False #assume it's not being added
+            if query:
+                lquery = query.lower()
+                name = _get_single_value(node, "CategoryName")
+                if name.lower().find(lquery) != -1:
+                    addNode = True #name contains our query, will add it
+            else:
+                addNode = True #no filter given, add all
+            if addNode:
+                to_return.append(node.toxml()) #add node to the list if we need to
+                    
     return to_return
 
 def get_response(operation_name, data, encoding, **headers):
