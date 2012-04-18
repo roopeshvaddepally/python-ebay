@@ -1,7 +1,6 @@
 from utils import get_endpoint_response, get_config_value
 from lxml import etree
-from xml.dom.minidom import parse, parseString, Node
-
+from xml.dom.minidom import parseString
 def getCategories(parentId=None, \
                 detailLevel='ReturnAll', \
                 errorLanguage=None, \
