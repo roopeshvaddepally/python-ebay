@@ -2,6 +2,89 @@ from utils import get_endpoint_response, get_config_value
 from lxml import etree
 from xml.dom.minidom import parseString
 
+def addItem(title, description, primaryCategoryId,
+            startPrice='0.99', country='US', currency='USD', 
+            dispatchTimeMax='3', listingDuration='Days_7',
+            listingType='Chinese', paymentMethods=['PayPal'],
+            payPalEmailAddress='', pictureDetails=[], postalCode='',
+            quantity=1, freeShipping=True, site='US', test=False):
+
+    #get the user auth token
+    token = get_config_value({("auth", "token"): "", })[("auth", "token")]
+    rname = "%sAddItemRequest" % 'Verify' if test else ''
+    root = etree.Element(rname,
+                         xmlns="urn:ebay:apis:eBLBaseComponents")
+    #add it to the xml doc
+    credentials_elem = etree.SubElement(root, "RequesterCredentials")
+    token_elem = etree.SubElement(credentials_elem, "eBayAuthToken")
+    token_elem.text = token
+
+    def add_e(parent, key, val=None):
+        child = etree.subElement(parent, key)
+        if val:
+            child.text = str(val)
+        return child
+
+    item_e = etree.SubElement(root, "Item")
+    t_e = add_e(item_e, "Title", str(title))
+    d_e = add_e(item_e, "Description", str(title))
+    pcat = add_e(item_e, "PrimaryCategory", None)
+    cid = add_e(pcat, "CategoryID", primaryCategoryId)
+    sp = add_e(item_e, "StarrtPrice", startPrice)
+    cma = add_e(item_e, "CategoryMappingAllowed", 'true')
+    cnode = add_e(item_e, "Country", country)
+    curre = add_e(item_e, "Currency", currency)
+    dtme = add_e(item_e, "DispatchTimeMax", dispatchTimeMax)
+    lde = add_e(item_e, "ListingDuration", listingDuration)
+    for t in paymentMethods:
+        pme = add_e(item_e, "PaymentMethods", t)
+    ppea = add_e(item_e, "PayPalEmailAddress", payPalEmailAddress)
+    picde = add_e(item_e, "PictureDetails", None)
+    for url in pictureDetails:
+        ure = add_e(picde, "PictureURL", url)
+    pce = add_e(item_e, "PostalCode", postalCode)
+    que = add_e(item_e, "Quantity", quantity)
+
+    # default return
+    returnPol_e = add_e(item_e, "ReturnPolicy", None)
+    add_e(returnPol_e, "ReturnsAcceptedOption", "ReturnsAccepted")
+    add_e(returnPol_e, "RefundOption", "MoneyBack")
+    add_e(returnPol_e, "ReturnsWithinOption", "Days_30")
+    add_e(returnPol_e, "Description", "If you are not satisfied, ship the item back for a full refund.")
+    add_e(returnPol_e, "ShippingCostPaidByOption", "Buyer")
+    # end default ret pol
+    
+    shipde_e = add_e(item_e, "ShippingDetails", None)
+    if freeShipping:
+        sse = add_e(shipde_e, "ShippingServiceOptions", None)
+        add_e(sse, "ShippingService", "USPS")
+        add_e(sse, "ShippingServiceCost", "0.0")
+        add_e(sse, "ShippingServiceAdditionalCost", "0.0")
+        add_e(sse, "ShippingServicePriority", "1")
+        add_e(sse, "ExpeditedService", "false")
+    site_e = add_e(item_e, "Site", site)
+    
+    
+    if parentId == None and levelLimit:
+        levelLimit_elem = etree.SubElement(root, "LevelLimit")
+        levelLimit_elem.text = str(levelLimit)
+    elif parentId:
+        parentId_elem = etree.SubElement(root, "CategoryParent")
+        parentId_elem.text = str(parentId)
+
+    viewAllNodes_elem = etree.SubElement(root, "ViewAllNodes")
+    viewAllNodes_elem.text = str(viewAllNodes).lower()
+
+    categorySiteId_elem = etree.SubElement(root, "CategorySiteID")
+    categorySiteId_elem.text = str(categorySiteId)
+
+    #need to specify xml declaration and encoding or else will get error
+    request = etree.tostring(root, pretty_print=False,
+                              xml_declaration=True, encoding="utf-8")
+    response = get_response(rname, request, encoding)
+
+    return response
+
 
 def getCategories(parentId=None, \
                 detailLevel='ReturnAll', \
