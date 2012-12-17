@@ -1,8 +1,10 @@
 #Generate the keys from developer.ebay.com
+#Imgur key from: https://imgur.com/register/api_anon
 [keys]
 dev_name=ENTER_HERE
 app_name=ENTER_HERE
 cert_name=ENTER_HERE
+imgur_key=ENTER_HERE
 
 #siteid: The numeric value for the eBay site with the items you want information about, e.g. the siteid of the US site is 0.
 #compatibility_level: The version used in header of the request
@@ -33,3 +35,5 @@ research = http://api.researchadvanced.com/
 resolution_case_management = https://svcs.sandbox.ebay.com/services/resolution/ResolutionCaseManagementService/v1
 shopping = http://open.api.sandbox.ebay.com/shopping
 trading = https://api.sandbox.ebay.com/wsapi
+# for production use:
+#trading = https://api.ebay.com/ws/api.dll
