@@ -1,17 +1,34 @@
-from utils import get_endpoint_response, get_config_value
-from lxml import etree
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+import sys
+from utils import (get_endpoint_response, get_config_value,
+        get_endpoint_response_with_file, add_e, imgur_post)
+from lxml import etree, objectify
 from xml.dom.minidom import parseString
+ 
+
+CID = {
+    'new': '1000',
+    'used': '3000',
+}
+
+def addItemWithPic(image, **kwargs):
+    url = uploadSiteHostedPicture(image)
+    kwargs['pictureDetails'] = [url]
+    return addItem(**kwargs)
 
 def addItem(title, description, primaryCategoryId,
-            startPrice='0.99', country='US', currency='USD', 
-            dispatchTimeMax='3', listingDuration='Days_7',
+            startPrice='0.99', buyItNowPrice=None, country='US',
+            currency='USD', dispatchTimeMax='3', listingDuration='Days_7',
             listingType='Chinese', paymentMethods=['PayPal'],
             payPalEmailAddress='', pictureDetails=[], postalCode='',
+            photoDisplay='PicturePack', condition='new',
             quantity=1, freeShipping=True, site='US', test=False):
 
     #get the user auth token
     token = get_config_value({("auth", "token"): "", })[("auth", "token")]
-    rname = "%sAddItemRequest" % 'Verify' if test else ''
+    oname = "AddItem" if not test else 'VerifyAddItem'
+    rname = "%sRequest" % oname
     root = etree.Element(rname,
                          xmlns="urn:ebay:apis:eBLBaseComponents")
     #add it to the xml doc
@@ -19,18 +36,16 @@ def addItem(title, description, primaryCategoryId,
     token_elem = etree.SubElement(credentials_elem, "eBayAuthToken")
     token_elem.text = token
 
-    def add_e(parent, key, val=None):
-        child = etree.subElement(parent, key)
-        if val:
-            child.text = str(val)
-        return child
 
     item_e = etree.SubElement(root, "Item")
     t_e = add_e(item_e, "Title", str(title))
-    d_e = add_e(item_e, "Description", str(title))
+    d_e = add_e(item_e, "Description", str(description))
     pcat = add_e(item_e, "PrimaryCategory", None)
     cid = add_e(pcat, "CategoryID", primaryCategoryId)
-    sp = add_e(item_e, "StarrtPrice", startPrice)
+    add_e(item_e, "ConditionID", CID.get(condition, 'new'))
+    sp = add_e(item_e, "StartPrice", startPrice)
+    if buyItNowPrice:
+        sp = add_e(item_e, "BuyItNowPrice", buyItNowPrice)
     cma = add_e(item_e, "CategoryMappingAllowed", 'true')
     cnode = add_e(item_e, "Country", country)
     curre = add_e(item_e, "Currency", currency)
@@ -40,6 +55,7 @@ def addItem(title, description, primaryCategoryId,
         pme = add_e(item_e, "PaymentMethods", t)
     ppea = add_e(item_e, "PayPalEmailAddress", payPalEmailAddress)
     picde = add_e(item_e, "PictureDetails", None)
+    add_e(picde, "PhotoDisplay", photoDisplay)
     for url in pictureDetails:
         ure = add_e(picde, "PictureURL", url)
     pce = add_e(item_e, "PostalCode", postalCode)
@@ -56,32 +72,19 @@ def addItem(title, description, primaryCategoryId,
     
     shipde_e = add_e(item_e, "ShippingDetails", None)
     if freeShipping:
+        sst = add_e(shipde_e, "ShippingType", "Flat")
         sse = add_e(shipde_e, "ShippingServiceOptions", None)
-        add_e(sse, "ShippingService", "USPS")
+        add_e(sse, "ShippingService", "USPSMedia")
         add_e(sse, "ShippingServiceCost", "0.0")
         add_e(sse, "ShippingServiceAdditionalCost", "0.0")
         add_e(sse, "ShippingServicePriority", "1")
         add_e(sse, "ExpeditedService", "false")
     site_e = add_e(item_e, "Site", site)
-    
-    
-    if parentId == None and levelLimit:
-        levelLimit_elem = etree.SubElement(root, "LevelLimit")
-        levelLimit_elem.text = str(levelLimit)
-    elif parentId:
-        parentId_elem = etree.SubElement(root, "CategoryParent")
-        parentId_elem.text = str(parentId)
-
-    viewAllNodes_elem = etree.SubElement(root, "ViewAllNodes")
-    viewAllNodes_elem.text = str(viewAllNodes).lower()
-
-    categorySiteId_elem = etree.SubElement(root, "CategorySiteID")
-    categorySiteId_elem.text = str(categorySiteId)
 
     #need to specify xml declaration and encoding or else will get error
-    request = etree.tostring(root, pretty_print=False,
+    request = etree.tostring(root, pretty_print=True,
                               xml_declaration=True, encoding="utf-8")
-    response = get_response(rname, request, encoding)
+    response = get_response(oname, request, "utf-8")
 
     return response
 
@@ -191,6 +194,46 @@ def filterCategories(xml_data, query=''):
     return to_return
 
 
+def uploadSiteHostedPicture(filepath):
+    isURL = 'http://' in filepath or 'https://' in filepath
+    #get the user auth token
+    token = get_config_value({("auth", "token"): "", })[("auth", "token")]
+    oname = "UploadSiteHostedPictures"
+    rname = "%sRequest" % oname
+    root = etree.Element(rname, xmlns="urn:ebay:apis:eBLBaseComponents")
+    credentials_elem = etree.SubElement(root, "RequesterCredentials")
+    token_elem = etree.SubElement(credentials_elem, "eBayAuthToken")
+    token_elem.text = token
+    add_e(root, "PictureSet", "Supersize")
+    if isURL:
+        urlpath = filepath
+    else:
+        try:
+            urlpath = imgur_post(filepath)
+        except Exception as e:
+            sys.stderr.write("Unable to upload img: %s. Abort -1.\n" % filepath)
+            raise e
+
+    epu = add_e(root, "ExternalPictureURL", urlpath)
+
+    request = etree.tostring(root, pretty_print=True,
+                              xml_declaration=True, encoding="UTF-8")
+
+    response = get_response(oname, request, "UTF-8")
+
+    return urlpath
+
+
+def url_result(result):
+    root = objectify.fromstring(result)
+    url = root.FullURL.text
+    return url
+     
+
 def get_response(operation_name, data, encoding, **headers):
     return get_endpoint_response("trading", operation_name,
                                   data, encoding, **headers)
+
+def get_response_with_file(operation_name, fobj, data, encoding, **headers):
+    return get_endpoint_response_with_file("trading", operation_name,
+                fobj, data, encoding, **headers)
