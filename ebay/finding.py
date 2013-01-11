@@ -387,11 +387,13 @@ def getHistograms(categoryId, encoding="JSON"):
 def get_response(operation_name, data, encoding, **headers):
     config = ConfigParser()
     config.read(relative("config.ini"))
+    globalId = config.get("call", "global_id")
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "finding")
 
     http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
                     "X-EBAY-SOA-SECURITY-APPNAME": app_name,
+                    "X-EBAY-SOA-GLOBAL-ID" : globalId,
                     "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
 
     http_headers.update(headers)
