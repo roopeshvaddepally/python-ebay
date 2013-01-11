@@ -9,7 +9,8 @@ imgur_key=ENTER_HERE
 #siteid: The numeric value for the eBay site with the items you want information about, e.g. the siteid of the US site is 0.
 #compatibility_level: The version used in header of the request
 [call]
-siteid=ENTER_HER
+siteid=ENTER_HERE
+global_id=ENTER_HERE
 compatibility_level=ENTER_HERE
 
 #You need production token here if you are using the Best Match, Client Alerts and Feedback API

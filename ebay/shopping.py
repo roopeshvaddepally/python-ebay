@@ -63,10 +63,13 @@ def GetShippingCosts(item_id, destination_country_code, destination_postal_code,
     response = get_response(user_param)
     return response.content 
     
-def GetMultipleItems(item_id, encoding="JSON"):
+def GetMultipleItems(item_id, include_selector=None, encoding="JSON"):
     user_param={'callname' : GetMultipleItems.__name__,
                 'responseencoding' : encoding,
                 'ItemId' : item_id}
+    
+    if include_selector:
+        user_param['IncludeSelector'] = include_selector
     
     response = get_response(user_param)
     return response.content
