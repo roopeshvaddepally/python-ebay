@@ -7,3 +7,11 @@ dist/
 *.pyo
 *.py#
 *~
+
+#Ignore files with secret keys
+config.ini
+
+#Ignore Eclipse project files
+.project/*
+.settings/*
+.pydevproject
