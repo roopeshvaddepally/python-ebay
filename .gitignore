@@ -12,6 +12,6 @@ dist/
 config.ini
 
 #Ignore Eclipse project files
-.project/*
+.project
 .settings/*
 .pydevproject
