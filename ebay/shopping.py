@@ -115,7 +115,7 @@ def FindPopularItems(query, category_id_exclude=None, encoding="JSON"):
 # Search: Bug in eBay documentation of Product Id: http://developer.ebay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html#Samples
 def FindReviewsandGuides(category_id=None, product_id=None, encoding="JSON"):
     if category_id:
-        user_param={'callname' : FindReviewsAndGuides.__name__,
+        user_param={'callname' : FindReviewsandGuides.__name__,
                 'responseencoding' : encoding,
                 'CategoryID' : category_id}
    
