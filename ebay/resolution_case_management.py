@@ -1,8 +1,7 @@
 import urllib2
 from lxml import etree
 
-from ConfigParser import ConfigParser
-from utils import relative
+from utils import get_config_store
 
 # case retrieval calls
 def getUserCases(caseStatusFilter = None,
@@ -193,8 +192,7 @@ def getVersion(encoding="JSON"):
 
 
 def get_response(operation_name, data, encoding, **headers):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
+    config = get_config_store()
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "resolution_case_management")
 
