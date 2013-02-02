@@ -2,8 +2,9 @@ from ebay.finding import (getSearchKeywordsRecommendation, findItemsByKeywords,
                           findItemsByCategory, findItemsAdvanced, 
                           findItemsByProduct, findItemsIneBayStores, 
                           getHistograms)
-from ebay.utils import set_config_file
 
+#Use non standard configuration file
+#from ebay.utils import set_config_file
 #set_config_file("../config.ini")
 
 print getSearchKeywordsRecommendation(encoding="XML", keywords="acordian")
