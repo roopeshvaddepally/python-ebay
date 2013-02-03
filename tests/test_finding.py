@@ -1,13 +1,23 @@
+"""
+Tests for package ``ebay.finding``
+
+These tests are designed to work on the production system, not on Ebay's 
+sandbox.
+"""
 import unittest
 from lxml import etree
 
-from ebay.finding import *
+from ebay.finding import (getSearchKeywordsRecommendation, getHistograms,
+                          findItemsAdvanced, findItemsByCategory, 
+                          findItemsByKeywords, findItemsByProduct,
+                          findItemsIneBayStores)
+
 
 encoding = "XML" #default "JSON": Output encoding
 keywords = "ipod"
 #Get category IDs with function: `ebay.shopping.GetCategoryInfo`
 categoryId = "73839" #iPods & MP3 Players
-productId = "123" #TODO: get product ID for iPod. Each product eg. "iPod Nano" has a unique ID.
+productId = "77767691" #iPod nano 5th gen. Black. Each product has unique ID.
 storeName = "Fab Finds 4 U"
 #This information is encoded in URLs so the affiliate can get his commission. 
 affiliate = {"networkId":"9", "trackingId":"1234567890"}
@@ -150,8 +160,8 @@ class TestFindingApi(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    #Run single test manually. 
-#    t = TestFindingApi("test_getSearchKeywordsRecommendation")
-#    t.test_getSearchKeywordsRecommendation()
+#    #Run single test manually. 
+#    t = TestFindingApi("test_findItemsByProduct")
+#    t.test_findItemsByProduct()
     
     unittest.main()
