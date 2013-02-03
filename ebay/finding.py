@@ -1,8 +1,7 @@
 import urllib2
 from lxml import etree
 
-from ConfigParser import ConfigParser
-from utils import relative
+from utils import get_config_store
 
 
 def getSearchKeywordsRecommendation(keywords, encoding="JSON"):
@@ -385,8 +384,7 @@ def getHistograms(categoryId, encoding="JSON"):
 
 
 def get_response(operation_name, data, encoding, **headers):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
+    config = get_config_store()
     globalId = config.get("call", "global_id")
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "finding")

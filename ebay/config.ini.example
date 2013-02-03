@@ -1,30 +1,37 @@
-#Generate the keys from developer.ebay.com
-#Imgur key from: https://imgur.com/register/api_anon
 [keys]
-dev_name=ENTER_HERE
-app_name=ENTER_HERE
-cert_name=ENTER_HERE
-imgur_key=ENTER_HERE
+#Generate the keys from developer.ebay.com
+dev_name = ENTER_HERE
+app_name = ENTER_HERE
+cert_name = ENTER_HERE
 
-#siteid: The numeric value for the eBay site with the items you want information about, e.g. the siteid of the US site is 0.
-#compatibility_level: The version used in header of the request
+#Imgur key from: https://imgur.com/register/api_anon
+imgur_key = ENTER_HERE
+
 [call]
-siteid=ENTER_HERE
-global_id=ENTER_HERE
-compatibility_level=ENTER_HERE
+#siteid: The numeric value for the eBay site with the items you want information 
+#about, e.g. US: siteid = 0, global_id = EBAY-US
+#    http://developer.ebay.com/devzone/finding/Concepts/SiteIDToGlobalID.html
+#compatibility_level: The version used in header of the request
+siteid = ENTER_HERE
+global_id = ENTER_HERE
+compatibility_level = ENTER_HERE
 
-#You need production token here if you are using the Best Match, Client Alerts and Feedback API
 [auth]
+#You need production token here if you are using the Best Match, Client Alerts 
+#and Feedback API
 token = ENTER_HERE
 
-#The Research API credentials go here
 [research]
+#The Research API credentials go here
 Token = ENTER_HERE
 UserToken = ENTER_HERE
 DeveloperName = ENTER_HERE
 
-#Specify the endpoints here, make sure endpoints and the auth credentials + token match
 [endpoints]
+#Specify the endpoints here, make sure endpoints and the auth credentials + 
+#token match. 
+#To use the production system, remove `.sandbox` from the URL. However trading
+#API uses different naming scheme, see at bottom.
 feedback = https://svcs.ebay.com/FeedbackService
 finding = http://svcs.sandbox.ebay.com/services/search/FindingService/v1
 best_match = https://svcs.ebay.com/services/search/BestMatchItemDetailsService/v1

@@ -1,8 +1,8 @@
 import urllib2
 from lxml import etree
 
-from ConfigParser import ConfigParser
-from utils import relative
+from utils import get_config_store
+
 
 def findBestMatchItemDetailsAcrossStores(keywords, \
                                          siteResultsPerPage, \
@@ -247,8 +247,7 @@ def get_generic_tags(root, siteResultsPerPage, productId=None, keywords=None, ca
 
 
 def get_response(operation_name, data, encoding, **headers):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
+    config = get_config_store()
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "best_match")
 

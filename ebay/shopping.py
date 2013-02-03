@@ -1,6 +1,6 @@
-from ConfigParser import ConfigParser
 import requests
-from utils import relative
+from utils import get_config_store
+
 
 # Item Search
 def FindProducts(query, available_items, max_entries, encoding="JSON"):
@@ -115,7 +115,7 @@ def FindPopularItems(query, category_id_exclude=None, encoding="JSON"):
 # Search: Bug in eBay documentation of Product Id: http://developer.ebay.com/devzone/shopping/docs/callref/FindReviewsAndGuides.html#Samples
 def FindReviewsandGuides(category_id=None, product_id=None, encoding="JSON"):
     if category_id:
-        user_param={'callname' : FindReviewsAndGuides.__name__,
+        user_param={'callname' : FindReviewsandGuides.__name__,
                 'responseencoding' : encoding,
                 'CategoryID' : category_id}
    
@@ -151,9 +151,7 @@ def GeteBayTime(encoding="JSON"):
 
 #requests method
 def get_response(user_params):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
-    
+    config = get_config_store()
     app_id = config.get("keys", "app_name")
     site_id = config.get("call", "siteid")
     version = config.get("call", "compatibility_level")
