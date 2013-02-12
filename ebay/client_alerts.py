@@ -1,6 +1,6 @@
-from ConfigParser import ConfigParser
 import requests
-from utils import relative
+from utils import get_config_store
+
 
 def GetPublicAlerts(ChannelID, ChannelType, EventType, MessageID=None, LastRequestTime=None, encoding="JSON"):
     user_param={'callname' : GetPublicAlerts.__name__,
@@ -54,9 +54,7 @@ def Logout(SessionID, SessionData, MessageID=None, encoding="JSON"):
     return response.content
 
 def get_response(user_params):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
-
+    config = get_config_store()
     app_id = config.get("keys", "app_name")
     site_id = config.get("call", "siteid")
     version = config.get("call", "compatibility_level")

@@ -1,8 +1,8 @@
 import urllib2
 from lxml import etree
 
-from ConfigParser import ConfigParser
-from utils import relative, Specification, CompatibilityPropertyFilter, Value, SortOrder
+from utils import (get_config_store, Specification, CompatibilityPropertyFilter, 
+                   Value, SortOrder)
 
 def findCompatibilitiesBySpecification(specification, \
                                        categoryId, \
@@ -221,8 +221,7 @@ def getProductDetails(encoding="JSON"):
 
 
 def get_response(operation_name, data, encoding, **headers):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
+    config = get_config_store()
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "product")
 

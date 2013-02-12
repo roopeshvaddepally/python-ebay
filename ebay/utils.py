@@ -7,25 +7,18 @@ from ConfigParser import ConfigParser
 import requests
 from lxml import etree
 import base64
-import codecs
+#import codecs
 import json
 
-def get_endpoint_response(endpoint_name, operation_name, data, encoding, **headers):
-
-    config_dict = get_config_value({ ("endpoints", endpoint_name) : "",
-                    ("keys", "app_name") : "",
-                    ("keys", "dev_name") : "",
-                    ("keys", "cert_name") : "",
-                    ("call", "siteid") : "",
-                    ("call", "compatibility_level") : "", })
-    
-    
-    endpoint = config_dict[("endpoints", endpoint_name)]
-    app_name = config_dict[("keys", "app_name")]
-    dev_name = config_dict[("keys", "dev_name")]
-    cert_name = config_dict[("keys", "cert_name")]
-    compatibility_level = config_dict[("call", "compatibility_level")]
-    siteId = config_dict[("call", "siteid")]
+def get_endpoint_response(endpoint_name, operation_name, data, encoding, 
+                          **headers):
+    config = get_config_store()
+    endpoint = config.get("endpoints", endpoint_name)
+    app_name = config.get("keys", "app_name")
+    dev_name = config.get("keys", "dev_name")
+    cert_name = config.get("keys", "cert_name")
+    compatibility_level = config.get("call", "compatibility_level")
+    siteId = config.get("call", "siteid")
 
     http_headers = { "X-EBAY-API-COMPATIBILITY-LEVEL" : compatibility_level,
                 "X-EBAY-API-DEV-NAME" : dev_name,
@@ -43,21 +36,14 @@ def get_endpoint_response(endpoint_name, operation_name, data, encoding, **heade
     return data
 
 def get_endpoint_response_with_file(endpoint_name, operation_name, fobj, data,
-        encoding, **headers):
-    config_dict = get_config_value({ ("endpoints", endpoint_name) : "",
-                    ("keys", "app_name") : "",
-                    ("keys", "dev_name") : "",
-                    ("keys", "cert_name") : "",
-                    ("call", "siteid") : "",
-                    ("call", "compatibility_level") : "", })
-    
-    
-    endpoint = config_dict[("endpoints", endpoint_name)]
-    app_name = config_dict[("keys", "app_name")]
-    dev_name = config_dict[("keys", "dev_name")]
-    cert_name = config_dict[("keys", "cert_name")]
-    compatibility_level = config_dict[("call", "compatibility_level")]
-    siteId = config_dict[("call", "siteid")]
+                                    encoding, **headers):
+    config = get_config_store()
+    endpoint = config.get("endpoints", endpoint_name)
+    app_name = config.get("keys", "app_name")
+    dev_name = config.get("keys", "dev_name")
+    cert_name = config.get("keys", "cert_name")
+    compatibility_level = config.get("call", "compatibility_level")
+    siteId = config.get("call", "siteid")
 
     http_headers = { "X-EBAY-API-COMPATIBILITY-LEVEL" : compatibility_level,
                 "X-EBAY-API-DEV-NAME" : dev_name,
@@ -79,20 +65,30 @@ def get_endpoint_response_with_file(endpoint_name, operation_name, fobj, data,
 def relative(*paths):
     return join(dirname(abspath(__file__)), *paths)
 
-def get_config_value(configTupleDict):
-    """ configTupleDict should be a dictionary with a tuple key
-    where the value will be filled by this function
-    (i.e. configTupleDict = { ("section", "key") : "actual value from config goes here", }
-    """
-    if configTupleDict:
-        config = ConfigParser()
-        config.read(relative("config.ini"))
-        #fill the dict of tuples
-        for curItem in configTupleDict:
-            configTupleDict[curItem] = config.get(curItem[0],curItem[1])
-            
+CONFIG_STORE = None
 
-    return configTupleDict
+def set_config_file(filename):
+    """
+    Change the configuration file. 
+    Use configuration file in non standard location.
+    """
+    global CONFIG_STORE
+    CONFIG_STORE = ConfigParser()
+    CONFIG_STORE.read(filename)
+
+def get_config_store():
+    """
+    Return storage object with configuration values.
+    The returned object is a ConfigParser, that is queried like this::
+    
+        key = store.get("section", "key")
+    """
+    global CONFIG_STORE
+    if CONFIG_STORE is None:
+        CONFIG_STORE = ConfigParser()
+        CONFIG_STORE.read(relative("config.ini"))
+        
+    return CONFIG_STORE
 
 class Value(object):
     def __init__(self,
@@ -136,12 +132,11 @@ def add_e(parent, key, val=None):
 
 
 def imgur_post(filepath):
-    imgur_key = get_config_value({("keys", "imgur_key"): "", }
-        )[("keys", "imgur_key")]
+    imgur_key = get_config_store().get("keys", "imgur_key")
     fobj = open(filepath, "rb")
-    bin = fobj.read()  #again, not string data, but binary data
+    bimage = fobj.read()  #again, not string data, but binary data
     fobj.close()
-    b64image = base64.b64encode(bin)
+    b64image = base64.b64encode(bimage)
     payload = {
         'key': imgur_key,
         'image': b64image,

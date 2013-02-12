@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 import sys
-from utils import (get_endpoint_response, get_config_value,
+from utils import (get_endpoint_response, get_config_store,
         get_endpoint_response_with_file, add_e, imgur_post)
 from lxml import etree, objectify
 from xml.dom.minidom import parseString
@@ -26,7 +26,7 @@ def addItem(title, description, primaryCategoryId,
             quantity=1, freeShipping=True, site='US', test=False):
 
     #get the user auth token
-    token = get_config_value({("auth", "token"): "", })[("auth", "token")]
+    token = get_config_store().get("auth", "token")
     oname = "AddItem" if not test else 'VerifyAddItem'
     rname = "%sRequest" % oname
     root = etree.Element(rname,
@@ -110,7 +110,7 @@ def getCategories(parentId=None, \
     http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetCategories.html#Request)
     """
     #get the user auth token
-    token = get_config_value({("auth", "token"): "", })[("auth", "token")]
+    token = get_config_store().get("auth", "token")
 
     root = etree.Element("GetCategoriesRequest",
                          xmlns="urn:ebay:apis:eBLBaseComponents")
@@ -197,7 +197,7 @@ def filterCategories(xml_data, query=''):
 def uploadSiteHostedPicture(filepath):
     isURL = 'http://' in filepath or 'https://' in filepath
     #get the user auth token
-    token = get_config_value({("auth", "token"): "", })[("auth", "token")]
+    token = get_config_store().get("auth", "token")
     oname = "UploadSiteHostedPictures"
     rname = "%sRequest" % oname
     root = etree.Element(rname, xmlns="urn:ebay:apis:eBLBaseComponents")

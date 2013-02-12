@@ -1,8 +1,7 @@
 import urllib2
 from lxml import etree
 
-from ConfigParser import ConfigParser
-from utils import relative
+from utils import get_config_store
 
 
 def getDeals(keywords, encoding="JSON"):
@@ -165,8 +164,7 @@ def getTopSellingProducts(affiliate=None, maxResults=None, encoding="JSON"):
 
 
 def get_response(operation_name, data, encoding, **headers):
-    config = ConfigParser()
-    config.read(relative("config.ini"))
+    config = get_config_store()
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "merchandising")
 
