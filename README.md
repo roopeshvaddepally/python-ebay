@@ -39,10 +39,10 @@ Please refer to details here: http://www.apache.org/licenses/LICENSE-2.0.html
 
 Contributors
 ===========
-Eike Welk
-Utkarsh Sengar
-Roopesh Vaddepally
-Stephen Balaban
-hbtronix
-bogdanvarlamov
-patoch
+Eike Welk  
+Utkarsh Sengar  
+Roopesh Vaddepally  
+Stephen Balaban  
+hbtronix  
+bogdanvarlamov  
+patoch  
