@@ -35,3 +35,14 @@ License
 
 Apache License, Version 2.0
 Please refer to details here: http://www.apache.org/licenses/LICENSE-2.0.html
+
+
+Contributors
+===========
+Eike Welk
+Utkarsh Sengar
+Roopesh Vaddepally
+Stephen Balaban
+hbtronix
+bogdanvarlamov
+patoch
