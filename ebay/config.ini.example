@@ -1,5 +1,6 @@
 [keys]
-#Generate the keys from developer.ebay.com
+#Your secret Ebay access keys.
+#Generate the keys on: developer.ebay.com
 dev_name = ENTER_HERE
 app_name = ENTER_HERE
 cert_name = ENTER_HERE
@@ -8,10 +9,18 @@ cert_name = ENTER_HERE
 imgur_key = ENTER_HERE
 
 [call]
-#siteid: The numeric value for the eBay site with the items you want information 
-#about, e.g. US: siteid = 0, global_id = EBAY-US
-#    http://developer.ebay.com/devzone/finding/Concepts/SiteIDToGlobalID.html
-#compatibility_level: The version used in header of the request
+#siteid, global_id: Identify the eBay site with the items you want 
+#   information about, e.g. 
+#   US:      siteid = 0,  global_id = EBAY-US
+#   Germany: siteid = 77, global_id = EBAY-DE
+#   See:
+#   http://developer.ebay.com/devzone/finding/Concepts/SiteIDToGlobalID.html
+#
+#compatibility_level: The version used in header of the request. Tested values:
+#   compatibility_level = 785
+#   compatibility_level = 863
+#   See:
+#   http://developer.ebay.com/DevZone/XML/docs/HowTo/eBayWS/eBaySchemaVersioning.html
 siteid = ENTER_HERE
 global_id = ENTER_HERE
 compatibility_level = ENTER_HERE
