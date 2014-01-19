@@ -7,6 +7,7 @@ dist/
 *.pyo
 *.py#
 *~
+*.bak
 
 #Ignore files with secret keys
 config.ini
@@ -15,3 +16,7 @@ config.ini
 .project
 .settings/*
 .pydevproject
+
+#Ignore file with password for PyPy
+.pypirc
+

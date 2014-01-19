@@ -1,0 +1,9 @@
+#Specify which files should be contained in a source distribution.
+
+include ebay/*.py
+include ebay/config.ini
+include ebay/config.ini.example
+
+include MANIFEST.in
+include README.rst
+include setup.py
