@@ -17,6 +17,3 @@ config.ini
 .settings/*
 .pydevproject
 
-#Ignore file with password for PyPy
-.pypirc
-
