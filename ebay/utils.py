@@ -9,6 +9,8 @@ from lxml import etree
 import base64
 #import codecs
 import json
+import shutil
+import os
 
 def get_endpoint_response(endpoint_name, operation_name, data, encoding, 
                           **headers):
@@ -89,6 +91,23 @@ def get_config_store():
         CONFIG_STORE.read(relative("config.ini"))
         
     return CONFIG_STORE
+
+def write_config_example(dst=None):
+    """
+    Write an example configuration file for python-ebay.
+    
+    * If **dst** is None, the file is written into the current directory,
+      and named ``config.ini.example``.
+    * If **dst** is an existing directory, the file is written into this 
+      directory, and named ``config.ini.example``.
+    * If **dst** is a file name, the example is written into a file with this
+      name.
+    """
+    if dst is None:
+        dst = os.getcwd()
+    config_example_path = relative("config.ini.example")
+    shutil.copy(config_example_path, dst)
+
 
 class Value(object):
     def __init__(self,

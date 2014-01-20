@@ -110,17 +110,27 @@ if args.start:
 
 #Do the release ---------------------------------------------------------------
 if args.upload:
-    #Delete the "config.ini" file, because it contains secrets.
+    #Backup "config.ini" because we need a working one for testing.
     config_ini_path = relative("ebay/config.ini")
+    config_example_path = relative("ebay/config.ini.example")
     if path.exists(config_ini_path):
-        #Backup the "config.ini" file, if it exists.
-        for i in range(1000):
-            config_bak_path = config_ini_path + ".{}.bak".format(i)
-            if not path.exists(config_bak_path):
-                break
-        shutil.copy(config_ini_path, config_bak_path)
-        #Delete "config.ini" 
+        #Test if "config.ini" is worth to be backed up
+        config_ini_text = open(config_ini_path).read()
+        config_example_text = open(config_example_path).read()
+        if config_ini_text != config_example_text:
+            #Backup the "config.ini" file
+            for i in range(1000):
+                config_bak_path = config_ini_path + ".{}.bak".format(i)
+                if not path.exists(config_bak_path):
+                    break
+            shutil.copy(config_ini_path, config_bak_path)
+    
+    #Delete "config.ini" because it may contain secrets.
+    #(However `python setup.py` will create a dummy "config.ini".)
+    try: 
         os.remove(config_ini_path)
+    except OSError: 
+        pass
         
     #Build source distribution, upload metadata, upload distribution(s)
     subprocess.call(["python", "setup.py",

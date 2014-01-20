@@ -18,15 +18,17 @@ def read(fname):
     return open(relative(fname)).read()
 
 
-##Create a dummy configuration file, if no configuration file exists.
-#conf_file = relative('ebay/config.ini')
-#conf_example = relative('ebay/config.ini.example')
-#if not isfile(conf_file):
-#    copy(conf_example, conf_file)
+#Create a dummy configuration file, if no configuration file exists.
+#Otherwise there will installation errors that look ugly, 
+#and may confuse users.
+conf_file = relative('ebay/config.ini')
+conf_example = relative('ebay/config.ini.example')
+if not isfile(conf_file):
+    copy(conf_example, conf_file)
 
 #Start the setup machinery, give it detailed information about this library.
 setup(name='python-ebay',
-      version="0.2.0b4",
+      version="0.2.0b5",
       description="Python Wrapper for eBay API",
       long_description=read('README.rst'),
       classifiers = [
