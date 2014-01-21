@@ -18,7 +18,7 @@ imgur_key = ENTER_HERE
 #
 #compatibility_level: The version used in header of the request. Tested values:
 #   compatibility_level = 785
-#   compatibility_level = 863
+#   compatibility_level = 853
 #   See:
 #   http://developer.ebay.com/DevZone/XML/docs/HowTo/eBayWS/eBaySchemaVersioning.html
 siteid = ENTER_HERE
