@@ -26,12 +26,13 @@ imgur_key = NOT_NEEDED
 #
 #compatibility_level: The version used in header of the request. Tested values:
 #   compatibility_level = 785
-#   compatibility_level = 863
+#   compatibility_level = 853
 #   See:
 #   http://developer.ebay.com/DevZone/XML/docs/HowTo/eBayWS/eBaySchemaVersioning.html
+#   http://developer.ebay.com/devzone/xml/docs/releasenotes.html
 siteid = 0
 global_id = EBAY-US
-compatibility_level = 863
+compatibility_level = 853
 
 [auth]
 #You need production token here if you are using the Best Match, Client Alerts 
