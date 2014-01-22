@@ -31,7 +31,7 @@ def relative(*path_fragments):
 set_config_file(relative("config-test1.ini"))
 
 
-#Definitions of the various optional arguments of the finding API.
+#Definitions of the various arguments of the finding API.
 encoding = "XML" #default "JSON": Output encoding
 keywords = "ipod"
 #Get category IDs with function: `ebay.shopping.GetCategoryInfo`
