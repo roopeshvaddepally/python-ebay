@@ -40,11 +40,9 @@ def find_item_ids(keywords):
     ack = root.ack.text
     assert ack == "Success" or ack == "Warning"
     
-    items = root.searchResult.item
     item_ids = []
-    for itemi in items:
-        itemi_id = itemi.itemId.text
-        item_ids.append(itemi_id)
+    for itemi in root.searchResult.item:
+        item_ids.append(itemi.itemId.text)
 #    print item_ids
     return item_ids
     
@@ -57,41 +55,15 @@ def relative(*path_fragments):
 set_config_file(relative("config-test1.ini"))
 
 
-#Definitions of the various arguments of the shopping API.
-#Keywords for search.
-keywords = "ipod" 
-#Only return information for items that are available.
-available_items = True 
-#Maximal number of entries in reply 
-max_entries = 10 
-#Specify the amount of information that is returned. 
-#  If ``None`` a small number of default fields is returned.
-#  Can consist of multiple words separated by commas. Possible values:
-#    Details, Description, TextDescription, ShippingCosts, ItemSpecifics,
-#    Variations, Compatibility
-include_selector = "ShippingCosts"
-##String that identifies the destination country. USA: "US", Germany: "DE"
-##http://developer.ebay.com/DevZone/shopping/docs/CallRef/types/CountryCodeType.html
-#destination_country_code = "US"
-##Postal code, country specific. For example "52068": eastern Aachen, Germany
-#destination_postal_code = "10027" #central New York City, USA
-##Return more detailed information
-#details = False
-##Number of items that should be shipped together.
-#quantity_sold = 1
-#Encoding of the returned data, possible values "JSON", "XML"
-encoding = "XML" 
-
-
 class TestShoppingApi(unittest.TestCase):
     def test_FindProducts(self):
         """
         http://developer.ebay.com/Devzone/shopping/docs/CallRef/FindProducts.html
         """
-        result = FindProducts(query=keywords, 
-                              available_items=available_items, 
-                              max_entries=max_entries,
-                              encoding=encoding)
+        result = FindProducts(query="ipod", 
+                              available_items=True, 
+                              max_entries=10,
+                              encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -111,12 +83,12 @@ class TestShoppingApi(unittest.TestCase):
         
         http://developer.ebay.com/DevZone/shopping/docs/CallRef/FindHalfProducts.html
         """
-        result = FindHalfProducts(query=keywords, 
-                                  max_entries=max_entries, 
+        result = FindHalfProducts(query="ipod", 
+                                  max_entries=10, 
                                   product_type=None, 
                                   product_value=None, 
                                   include_selector=None,
-                                  encoding=encoding)
+                                  encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -134,11 +106,11 @@ class TestShoppingApi(unittest.TestCase):
         """
         http://developer.ebay.com/DevZone/shopping/docs/CallRef/GetSingleItem.html
         """
-        item_ids = find_item_ids(keywords)
+        item_ids = find_item_ids("ipod")
         
         result = GetSingleItem(item_ids[0], 
-                               include_selector=include_selector,
-                               encoding=encoding)
+                               include_selector="ShippingCosts",
+                               encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -156,10 +128,10 @@ class TestShoppingApi(unittest.TestCase):
         """
         developer.ebay.com/DevZone/shopping/docs/CallRef/GetItemStatus.html
         """
-        item_ids = find_item_ids(keywords)
+        item_ids = find_item_ids("ipod")
         
         result = GetItemStatus(item_id=item_ids[0],
-                               encoding=encoding)
+                               encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -177,15 +149,15 @@ class TestShoppingApi(unittest.TestCase):
         """
         http://developer.ebay.com/DevZone/shopping/docs/CallRef/GetShippingCosts.html
         """
-        item_ids = find_item_ids(keywords)
+        item_ids = find_item_ids("ipod")
         
         result = GetShippingCosts(item_id=item_ids[0], 
                                   destination_country_code="US", 
                                   destination_postal_code="10027", 
                                   details=True, 
                                   quantity_sold=1, 
-                                  encoding=encoding)
-        print result
+                                  encoding="XML")
+#        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
@@ -199,12 +171,12 @@ class TestShoppingApi(unittest.TestCase):
         """
         http://developer.ebay.com/Devzone/shopping/docs/CallRef/GetMultipleItems.html
         """
-        item_ids = find_item_ids(keywords)
+        item_ids = find_item_ids("ipod")
         item_ids_str = ",".join(item_ids)
         
         result = GetMultipleItems(item_id=item_ids_str, 
-                                  include_selector=include_selector,
-                                  encoding=encoding)
+                                  include_selector="ShippingCosts",
+                                  encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -221,42 +193,103 @@ class TestShoppingApi(unittest.TestCase):
                             "It should be > 0.")
 
     def test_GetUserProfile(self):
-        result = GetUserProfile(encoding=encoding)
+        """
+        http://developer.ebay.com/DevZone/shopping/docs/CallRef/GetUserProfile.html
+        """
+        result = GetUserProfile(user_id=
+                                #ID of deleted user
+                                "bfafcc239c92d6404cd33a13648076d324750574", 
+                                include_selector="Details", 
+                                encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
-
+        
+        score = root.User.FeedbackScore.text 
+        status = root.User.Status.text
+        self.assertTrue(int(score) > 600, 
+                        "Score must represent an integer. "
+                        "This user's score is above 600")
+        self.assertTrue(status == "Deleted", "This is a deleted account.")
+        
+        
     def test_FindPopularSearches(self):
-        result = FindPopularSearches(encoding=encoding)
+        """
+        http://developer.ebay.com/DevZone/shopping/docs/CallRef/FindPopularSearches.html
+        """
+        result = FindPopularSearches(query="ipod,car", 
+                                     category_id=None,
+                                     encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
 
+        query = root.PopularSearchResult[0].QueryKeywords.text 
+        alternative = root.PopularSearchResult[0].AlternativeSearches.text
+        related = root.PopularSearchResult[0].RelatedSearches.text
+        self.assertTrue(len(query)>1)
+        self.assertTrue(len(alternative)>1)
+        self.assertTrue(len(related)>1)
+        
+        
     def test_FindPopularItems(self):
-        result = FindPopularItems(encoding=encoding)
+        """
+        developer.ebay.com/DevZone/shopping/docs/CallRef/FindPopularItems.html
+        """
+        result = FindPopularItems(query="ipod,car", 
+                                  category_id_exclude=None,
+                                  encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
+
+        items = root.ItemArray.Item
+        price = items[0].ConvertedCurrentPrice.text
+        title = items[0].Title.text
+        self.assertTrue(len(items) > 1, "eBay returns multiple popular items.")
+        self.assertTrue(float(price) > 0, "Price is a float.")
+        self.assertTrue(len(title) > 10, "``title`` is a somewhat long string.")
+        
 
     def test_FindReviewsandGuides(self):
-        result = FindReviewsandGuides(encoding=encoding)
-#        print result
+        """
+        http://developer.ebay.com/Devzone/shopping/docs/CallRef/FindReviewsAndGuides.html
+        """
+        result = FindReviewsandGuides(category_id="29997", 
+                                      product_id=None,
+                                      encoding="XML")
+        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
 
     def test_GetCategoryInfo(self):
-        result = GetCategoryInfo(encoding=encoding)
+        """
+        http://developer.ebay.com/DevZone/shopping/docs/CallRef/GetCategoryInfo.html
+        """
+        result = GetCategoryInfo(category_id="73839", #iPods & MP3 Players
+                                 include_selector=None, 
+                                 encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
         self.assertEqual(ack, "Success")
 
+        cat_id = root.CategoryArray.Category.CategoryID.text
+        cat_name = root.CategoryArray.Category.CategoryName.text 
+        self.assertTrue(cat_id == "73839", "Must be same ID as in query.")
+        self.assertTrue(cat_name.startswith("iPod"), 
+                        "Category name is: 'iPods & MP3 Player'")
+        
+
     def test_GeteBayTime(self):
-        result = GeteBayTime(encoding=encoding)
+        """
+        http://developer.ebay.com/Devzone/shopping/docs/CallRef/GeteBayTime.html
+        """
+        result = GeteBayTime(encoding="XML")
 #        print result
         root = objectify.fromstring(result)
         ack = root.Ack.text
@@ -264,11 +297,13 @@ class TestShoppingApi(unittest.TestCase):
         
         ebay_time = root.Timestamp.text 
         print ebay_time
-
+        self.assertTrue(len(ebay_time) > 10, 
+                        "eBay time is a somewhat long string.")
+        
 
 if __name__ == '__main__':
-    #Run single test manually. 
-    t = TestShoppingApi("test_GetMultipleItems")
-    t.test_GetMultipleItems()
+#    #Run single test manually. 
+#    t = TestShoppingApi("test_GetCategoryInfo")
+#    t.test_GetCategoryInfo()
     
-#    unittest.main()
+    unittest.main()

@@ -1,3 +1,9 @@
+"""
+Implementation of eBay's "Finding API".
+ 
+http://developer.ebay.com/DevZone/finding/CallRef/index.html
+"""
+
 import urllib2
 from lxml import etree
 
@@ -23,6 +29,119 @@ def findItemsByKeywords(keywords, \
                         itemFilter=None, \
                         outputSelector=None, \
                         encoding="JSON"):
+    """
+    Search for items by keywords. 
+    
+    This call returns only little information about each item. However it
+    returns item IDs, that uniquely identify each item that is sold on eBay. 
+    
+    Detailed information about items can be obtained with the functions
+    ``ebay.shopping.GetMultipleItems`` and ``ebay.shopping.GetSingleItem``.
+    These functions need item IDs as their input values.
+       
+    Parameters
+    ----------
+    
+    keywords: str
+        Keywords for the search.
+    
+    affiliate: dict, None
+        Information that enable affiliates to receive their commission.
+        This information does not affect the search itself. For details
+        on the content of the dictionary see:
+        
+        http://developer.ebay.com/DevZone/finding/CallRef/types/Affiliate.html
+        
+        Example::
+        
+            affiliate = {"networkId":"9", "trackingId":"1234567890"}
+
+    buyerPostalCode: str, None
+        The postal code of the buyer. Used to limit distance between buyer
+        and seller.
+
+    paginationInput: dict, None
+        Control the number of returned items per call. Also used to access
+        the next page (or lot) of returned items.
+        
+        The maximum number of items per call is 100, the maximum number of 
+        pages is 100. Therefore the maximum number of results per search 
+        is 10000.
+        
+        Example with 10 items per call, to access page 3 of the search 
+        results::
+        
+            paginationInput = {"entriesPerPage": "10", "pageNumber": "3"}
+        
+    sortOrder: str, None
+        The sort order of the results. Possible values:
+        
+        None, "EndTimeSoonest", "BestMatch", 
+        "BidCountFewest", "BidCountMost", "CountryAscending", 
+        "CountryDescending", "CurrentPriceHighest", "DistanceNearest", 
+        "PricePlusShippingHighest", "PricePlusShippingLowest", "StartTimeNewest"
+
+    aspectFilter: list of dict, None
+        Limit the results items with certain properties. These properties
+        are (physical) properties of the items themselves.
+        
+        The dictionaries have two keys:
+        * ``aspectName``: Name of a property, for example "Color".
+        * ``aspectValueName``: Value of that property, for example "Black". 
+    
+        Example::
+        
+            aspectFilter =  [{"aspectName":"Color", "aspectValueName":"Black"}, 
+                             {"aspectName":"", "aspectValueName":""}]
+
+    domainFilter: list of dicts, None
+        Limit the results to a certain product domain.
+    
+        Only a single dictionary can sensibly be put into the list,
+        because multiple domain filters are currently unsupported.
+        
+        The dictionary has only one key: 
+        * "domainName": The name of the desired product domain.
+        
+        Example::
+        
+            domainFilter = [{"domainName": "Other_MP3_Players"}] 
+
+    itemFilter: list of dicts, None
+        Limit the results to items with certain properties. These properties
+        are properties of the auction. 
+        
+        The dictionaries can have various keys. Please consult eBay's 
+        documentation for details: 
+        http://developer.ebay.com/DevZone/finding/CallRef/types/ItemFilterType.html
+
+        Example that sets a minimum and maximum price in Euro::
+        
+            itemFilter = [{"name":"MaxPrice", "value":"100", 
+                           "paramName":"Currency", "paramValue":"EUR"}, 
+                          {"name":"MinPrice", "value":"50", 
+                           "paramName":"Currency", "paramValue":"EUR"}]
+        
+    outputSelector: list of str, None
+        Control the amount and type of information that is returned.
+    
+        Possible values are:
+        "AspectHistogram", "CategoryHistogram", "ConditionHistogram", 
+        "GalleryInfo", "PictureURLLarge", "PictureURLSuperSize", "SellerInfo", 
+        "StoreInfo", "UnitPriceInfo"
+        
+        Example::
+        
+            outputSelector = ["StoreInfo", "SellerInfo", "AspectHistogram"]
+
+    encoding: str
+        Format of the returned data, possible values: "JSON", "XML"
+
+    See also
+    --------
+    
+    http://developer.ebay.com/DevZone/finding/CallRef/findItemsByKeywords.html
+    """
     root = etree.Element("findItemsByKeywords", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     keywords_elem = etree.SubElement(root, "keywords")

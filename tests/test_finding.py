@@ -38,12 +38,12 @@ keywords = "ipod"
 categoryId = "73839" #iPods & MP3 Players
 productId = "77767691" #iPod nano 5th gen. Black. Each product has unique ID.
 storeName = "Fab Finds 4 U" #A big store that won't go away soon.
-#This information is encoded in URLs so the affiliate can get his commission. 
+#This information is encoded in URLs so the affiliates can get their commission. 
 affiliate = {"networkId":"9", "trackingId":"1234567890"}
 buyerPostalCode = "10027" #central New York City, USA
 #Set number of results per call (here 10). Get additional results by 
 #increasing page number.
-paginationInput = {"entriesPerPage": "10", "pageNumber" : "1"}
+paginationInput = {"entriesPerPage": "10", "pageNumber": "1"}
 #http://developer.ebay.com/DevZone/finding/CallRef/types/ItemFilterType.html
 itemFilter = [{"name":"MaxPrice", "value":"100", 
                "paramName":"Currency", "paramValue":"EUR"}, 
@@ -51,12 +51,12 @@ itemFilter = [{"name":"MaxPrice", "value":"100",
                "paramName":"Currency", "paramValue":"EUR"}]
 #http://developer.ebay.com/DevZone/finding/CallRef/findItemsByKeywords.html#Request.sortOrder
 sortOrder = "EndTimeSoonest"
-aspectFilter =  [{"aspectName":"Color", "aspectValueName":"Black"}, 
-                 {"aspectName":"", "aspectValueName":""}]
+aspectFilter = [{"aspectName":"Color", "aspectValueName":"Black"}, 
+                {"aspectName":"", "aspectValueName":""}]
 #Multiple domain filters are currently unsupported
-domainFilter = [{"domainName":"Other_MP3_Players"}] 
+domainFilter = [{"domainName": "Other_MP3_Players"}] 
 #http://developer.ebay.com/DevZone/finding/CallRef/types/OutputSelectorType.html
-outputSelector =["StoreInfo", "SellerInfo", "AspectHistogram"]
+outputSelector = ["StoreInfo", "SellerInfo", "AspectHistogram"]
 
 
 class TestFindingApi(unittest.TestCase):
