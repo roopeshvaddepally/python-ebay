@@ -1,3 +1,9 @@
+#Configuration file template.
+#
+# Copy the file:
+#     config-test1.ini.example --> config-test1.ini
+# Then fill in information marked "ENTER_HERE".
+
 [keys]
 #Your secret Ebay access keys.
 #Generate the keys on: developer.ebay.com

@@ -1,7 +1,9 @@
 #Configuration file template for the test suite.
 #
-# Fill in information marked "ENTER_HERE"; then copy the file.
+# Copy the file:
 #     config-test1.ini.example --> config-test1.ini
+# Then fill in information marked "ENTER_HERE".
+#
 # This template is used for the following tests:
 #     test_finding.py
 #     test_shopping.py
