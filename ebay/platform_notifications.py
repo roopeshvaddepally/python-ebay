@@ -1,3 +1,10 @@
-def SetNotificationPreferences(): pass
-def GetNotificationPreferences(): pass
-def GetNotificationsUsage(): pass
+def SetNotificationPreferences():
+    pass
+
+
+def GetNotificationPreferences():
+    pass
+
+
+def GetNotificationsUsage():
+    pass

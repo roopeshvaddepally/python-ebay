@@ -1,4 +1,6 @@
-def configure(*args, **kwargs): pass
+def configure(*args, **kwargs):
+    pass
+
 
 class EBay(object):
     """An object that helps to wrap around raw api calls.
@@ -15,7 +17,8 @@ class EBay(object):
     >>> ebay.finding.getVersion() # calls finding.py/getVersion with
                                   # appropriate parameters.
     """
+
     def __init__(self, dev=None, app=None, cert=None, config="config.ini"):
         ## read the config file and load the dev, app, cert variables.
-        ## override the variables from the paramters passed in.
+        ## override the variables from the parameters passed in.
         pass
