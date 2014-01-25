@@ -51,53 +51,9 @@ class TestFindingApi(unittest.TestCase):
 
     def test_findItemsByKeywords(self):
         result = findItemsByKeywords(
-                        keywords=keywords, \
-                        affiliate=affiliate, \
-                        buyerPostalCode=buyerPostalCode, \
-                        paginationInput=paginationInput, \
-                        sortOrder=sortOrder, \
-                        aspectFilter=aspectFilter, \
-                        domainFilter=domainFilter, \
-                        itemFilter=itemFilter, \
-                        outputSelector=outputSelector, \
-                        encoding=encoding)
-#        print result
-        root = etree.fromstring(result)
-        ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
-        self.assertEqual(ack, "Success")
-        #Number of Items between 0 and 10, because of paginationInput
-        res_items = root.find("{http://www.ebay.com/marketplace/search/v1/services}searchResult")
-        self.assertTrue(0 <= len(res_items) <= 10)
-
-
-    def test_findItemsByCategory(self):
-        result = findItemsByCategory(
-                        categoryId=categoryId, \
-                        affiliate=affiliate, \
-                        buyerPostalCode=buyerPostalCode, \
-                        sortOrder=sortOrder, \
-                        paginationInput = paginationInput, \
-                        aspectFilter=aspectFilter, \
-                        domainFilter=domainFilter, \
-                        itemFilter=itemFilter, \
-                        outputSelector=outputSelector, \
-                        encoding=encoding)
-#        print result
-        root = etree.fromstring(result)
-        ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
-        self.assertEqual(ack, "Success")
-        #Number of Items between 0 and 10, because of paginationInput
-        res_items = root.find("{http://www.ebay.com/marketplace/search/v1/services}searchResult")
-        self.assertTrue(0 <= len(res_items) <= 10)
-
-
-    def test_findItemsAdvanced(self):
-        result = findItemsAdvanced(
-                      keywords=keywords, \
-                      categoryId=categoryId, \
-                      affiliate=affiliate, \
-                      buyerPostalCode=buyerPostalCode, \
-                      paginationInput= paginationInput, \
+                        keywords=keywords,
+                        affiliate=affiliate, \                       buyerPostalCode=buyerPostalCode, \
+                      paginationInput=paginationInput, \
                       sortOrder=sortOrder, \
                       aspectFilter=aspectFilter, \
                       domainFilter=domainFilter, \
@@ -113,19 +69,61 @@ class TestFindingApi(unittest.TestCase):
         self.assertTrue(0 <= len(res_items) <= 10)
 
 
+    def test_findItemsByCategory(self):
+        result = findItemsByCategory(
+                        categoryId=categoryId, \
+                      affiliate=affiliate, \
+                      buyerPostalCode=buyerPostalCode, \
+                      sortOrder=sortOrder, \
+                      paginationInput = paginationInput, \
+                       spectFilter=aspectFilter, \
+                        dainFilter=domainFilter, \
+                        iteilter=itemFilter, \
+                        outpuelector=outputSelector, \
+                        encodinencoding)
+#        print result
+        root = etree.fromstring(result)
+        ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
+        self.assertEqual(ack, "Success")
+        #Number of Items between 0 and 10, because of paginationInput
+        res_items = root.find("{http://www.ebay.com/marketplace/search/v1/services}searchResult")
+        self.assertTrue(0 <= len(res_items) <= 10)
+
+
+    def test_findItemsAdvanced(self):
+        result = findItemsAdvanced(
+                      keywords=keywords, \
+                      categoryId=tegoryId, \
+                      affiliate=affiate, \
+                      buyerPostalCodeuyerPostalCode, \
+                      paginationInput= ginationInput, \
+                      sortOrder=sortOrder\
+                      aspectFilter=aspectFier, \
+                      domainFilter=domainFilt, \
+                      itemFilter=itemFilter, \
+                    outputSelector=outputSelect, \
+                      encoding=encoding)
+#        pnt result
+        root = etree.fromstring(result)
+        ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
+        self.assertEqual(ack, "Success")
+        #Number of Items between 0 and 10, because of paginationInput
+        res_items = root.find("{http://www.ebay.com/marketplace/search/v1/services}searchResult")
+        self.assertTrue(0 <= len(res_items) <= 10)
+
+
     def test_findItemsByProduct(self):
         result = findItemsByProduct(
                        keywords=keywords, \
                        productId=productId, \
-                       affiliate=affiliate, \
-                       buyerPostalCode=buyerPostalCode, \
-                       paginationInput= paginationInput, \
-                       sortOrder=sortOrder, \
-                       itemFilter=itemFilter, \
-                       outputSelector=outputSelector, \
-                       encoding=encoding)
+                     affiliate=affiliate, \
+                     buyerPostalCode=buyerPostalCode, \                      paginationInput= paginationInput, \
+                     sortOrder=sortOrder, \
+                     itemFilter=itemFilter, \
+                     outputSelector=outputSelector, \
+                     encoding=encoding)
 #        print result
-        root = etree.fromstring(result)
+      root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
         self.assertEqual(ack, "Failure") 
 
@@ -134,14 +132,14 @@ class TestFindingApi(unittest.TestCase):
         result = findItemsIneBayStores(
                           keywords=keywords, \
                           storeName=storeName, \
-                          affiliate=affiliate, \
-                          buyerPostalCode=buyerPostalCode, \
-                          paginationInput=paginationInput, \
-                          sortOrder=sortOrder, \
-                          aspectFilter=aspectFilter, \
-                          domainFilter=domainFilter, \
-                          itemFilter=itemFilter, \
-                          outputSelector=outputSelector, \
+                        affiliate=affiliate, \
+                        buyerPostalCode=buyerPostalCode, \
+                        paginationInput=paginationInput, \
+                        sortOrder=sortOrder, \
+                          asctFilter=aspectFilter, \
+                        domainFilter=domainFilter, \
+                          emFilter=itemFilter, \
+                          outputlector=outputSelector, \
                           encoding=encoding)
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text

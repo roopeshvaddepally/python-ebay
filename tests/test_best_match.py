@@ -31,7 +31,7 @@ class TestBestMatchApi(unittest.TestCase):
                                                      itemFilter=itemFilter,\
                                                      outputSelector=outputSelector,\
                                                      postSearchItemFilter=postSearchItemFilter,\
-                                                     postSearchSellerFilter=postSearchSellerFilter, \
+                                                     postSearchSellerFilter=postSearchSellerFilter,
                                                      encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
@@ -46,7 +46,7 @@ class TestBestMatchApi(unittest.TestCase):
                                                      itemFilter=itemFilter,\
                                                      outputSelector=outputSelector,\
                                                      postSearchItemFilter=postSearchItemFilter,\
-                                                     postSearchSellerFilter=postSearchSellerFilter, \
+                                                     postSearchSellerFilter=postSearchSellerFilter,
                                                      encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
@@ -56,13 +56,13 @@ class TestBestMatchApi(unittest.TestCase):
     def test_findBestMatchItemDetailsAdvanced(self):
         result = findBestMatchItemDetailsAdvanced(keywords=keywords,\
                                                   siteResultsPerPage=siteResultsPerPage,\
-                                                  categoryId=None, \
-                                                  entriesPerPage=entriesPerPage, \
-                                                  ignoreFeatured=ignoreFeatured, \
-                                                  itemFilter=itemFilter, \
-                                                  outputSelector=outputSelector, \
-                                                  postSearchItemFilter=postSearchItemFilter, \
-                                                  postSearchSellerFilter=postSearchSellerFilter, \
+                                                  categoryId=None,
+                                                  entriesPerPage=entriesPerPage,
+                                                  ignoreFeatured=ignoreFeatured,
+                                                  itemFilter=itemFilter,
+                                                  outputSelector=outputSelector,
+                                                  postSearchItemFilter=postSearchItemFilter,
+                                                  postSearchSellerFilter=postSearchSellerFilter,
                                                   encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
@@ -70,14 +70,14 @@ class TestBestMatchApi(unittest.TestCase):
 
 
     def test_findBestMatchItemDetailsByCategory(self):
-        result = findBestMatchItemDetailsByCategory(categoryId = categoryId, \
-                                                    siteResultsPerPage = siteResultsPerPage, \
-                                                    entriesPerPage = entriesPerPage, \
-                                                    ignoreFeatured = ignoreFeatured, \
-                                                    itemFilter = itemFilter, \
-                                                    outputSelector = outputSelector, \
-                                                    postSearchItemFilter = postSearchItemFilter, \
-                                                    postSearchSellerFilter = postSearchSellerFilter, \
+        result = findBestMatchItemDetailsByCategory(categoryId = categoryId,
+                                                    siteResultsPerPage = siteResultsPerPage,
+                                                    entriesPerPage = entriesPerPage,
+                                                    ignoreFeatured = ignoreFeatured,
+                                                    itemFilter = itemFilter,
+                                                    outputSelector = outputSelector,
+                                                    postSearchItemFilter = postSearchItemFilter,
+                                                    postSearchSellerFilter = postSearchSellerFilter,
                                                     encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text
@@ -85,14 +85,14 @@ class TestBestMatchApi(unittest.TestCase):
 
 
     def test_findBestMatchItemDetailsByKeywords(self):
-        result = findBestMatchItemDetailsByKeywords(keywords=keywords, \
-                                                    siteResultsPerPage = siteResultsPerPage, \
-                                                    entriesPerPage=entriesPerPage, \
-                                                    ignoreFeatured=ignoreFeatured, \
-                                                    itemFilter=itemFilter, \
-                                                    outputSelector=outputSelector, \
-                                                    postSearchItemFilter=postSearchItemFilter, \
-                                                    postSearchSellerFilter=postSearchSellerFilter, \
+        result = findBestMatchItemDetailsByKeywords(keywords=keywords,
+                                                    siteResultsPerPage = siteResultsPerPage,
+                                                    entriesPerPage=entriesPerPage,
+                                                    ignoreFeatured=ignoreFeatured,
+                                                    itemFilter=itemFilter,
+                                                    outputSelector=outputSelector,
+                                                    postSearchItemFilter=postSearchItemFilter,
+                                                    postSearchSellerFilter=postSearchSellerFilter,
                                                     encoding="XML")
 
         root = etree.fromstring(result)
@@ -101,14 +101,14 @@ class TestBestMatchApi(unittest.TestCase):
 
 
     def test_findBestMatchItemDetailsByProduct(self):
-        result = findBestMatchItemDetailsByProduct(productId=productId, \
-                                                   siteResultsPerPage=siteResultsPerPage, \
-                                                   entriesPerPage=entriesPerPage, \
-                                                   ignoreFeatured=ignoreFeatured, \
-                                                   itemFilter=itemFilter, \
-                                                   outputSelector=outputSelector, \
-                                                   postSearchItemFilter=postSearchItemFilter, \
-                                                   postSearchSellerFilter=postSearchSellerFilter, \
+        result = findBestMatchItemDetailsByProduct(productId=productId,
+                                                   siteResultsPerPage=siteResultsPerPage,
+                                                   entriesPerPage=entriesPerPage,
+                                                   ignoreFeatured=ignoreFeatured,
+                                                   itemFilter=itemFilter,
+                                                   outputSelector=outputSelector,
+                                                   postSearchItemFilter=postSearchItemFilter,
+                                                   postSearchSellerFilter=postSearchSellerFilter,
                                                    encoding="XML")
 
         root = etree.fromstring(result)
@@ -117,11 +117,11 @@ class TestBestMatchApi(unittest.TestCase):
 
 
     def test_findBestMatchItemDetailsBySeller(self):
-        result = findBestMatchItemDetailsBySeller(categoryId=categoryId, \
-                                                  sellerUserName=sellerUserName, \
-                                                  ignoreFeatured=ignoreFeatured, \
-                                                  itemFilter=itemFilter, \
-                                                  paginationInput=paginationInput, \
+        result = findBestMatchItemDetailsBySeller(categoryId=categoryId,
+                                                  sellerUserName=sellerUserName,
+                                                  ignoreFeatured=ignoreFeatured,
+                                                  itemFilter=itemFilter,
+                                                  paginationInput=paginationInput,
                                                   encoding="XML")
         root = etree.fromstring(result)
         ack = root.find("{http://www.ebay.com/marketplace/search/v1/services}ack").text

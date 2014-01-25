@@ -16,10 +16,10 @@ ClientAlertsAuthToken = "AQAAARk1obQAAA0xfDE3ODcyNHw1MjQ2fDEyMDg1NDk0Njg0ODR8anF
 
 class TestClientAlertsApi(unittest.TestCase):
     def test_GetPublicAlerts(self):
-        result = GetPublicAlerts(ChannelID=ChannelID, \
-                                 ChannelType=ChannelType, \
-                                 EventType=EventType, MessageID=MessageID, \
-                                 LastRequestTime=LastRequestTime, \
+        result = GetPublicAlerts(ChannelID=ChannelID,
+                                 ChannelType=ChannelType,
+                                 EventType=EventType, MessageID=MessageID,
+                                 LastRequestTime=LastRequestTime,
                                  encoding=encoding)
         root = etree.fromstring(result)
         print root[0]
@@ -28,9 +28,9 @@ class TestClientAlertsApi(unittest.TestCase):
 
 
     def test_GetUserAlerts(self):
-        result = GetUserAlerts(SessionID=SessionID, \
-                               SessionData=SessionData, \
-                               MessageID=MessageID, \
+        result = GetUserAlerts(SessionID=SessionID,
+                               SessionData=SessionData,
+                               MessageID=MessageID,
                                encoding=encoding)
         root = etree.fromstring(result)
         ack = root.find("{urn:ebay:apis:eBLBaseComponents}Ack").text
@@ -38,8 +38,8 @@ class TestClientAlertsApi(unittest.TestCase):
 
     #Not sure how to fix it, the return value when request failing is:  issue#5
     def test_Login(self):
-        result = Login(ClientAlertsAuthToken=ClientAlertsAuthToken, \
-                       MessageID=MessageID, \
+        result = Login(ClientAlertsAuthToken=ClientAlertsAuthToken,
+                       MessageID=MessageID,
                        encoding=encoding)
         root = etree.fromstring(result)
         ack = root.find("{urn:ebay:apis:eBLBaseComponents}Ack").text
@@ -47,9 +47,9 @@ class TestClientAlertsApi(unittest.TestCase):
 
 
     def test_Logout(self):
-        result = Logout(SessionID=SessionID, \
-                        SessionData=SessionData, \
-                        MessageID=MessageID, \
+        result = Logout(SessionID=SessionID,
+                        SessionData=SessionData,
+                        MessageID=MessageID,
                         encoding=encoding)
         root = etree.fromstring(result)
         ack = root.find("{urn:ebay:apis:eBLBaseComponents}Ack").text

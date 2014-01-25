@@ -22,12 +22,11 @@ class TestMerchandisingApi(unittest.TestCase):
 
 
     def test_getRelatedCategoryItems(self):
-        result = getRelatedCategoryItems(affiliate=None, \
-                                         maxResults=None, \
-                                         categoryId=None, \
-                                         itemFilter=None, \
-                                         itemId=None, \
-                                         encoding="XML")
+        result = getRelatedCategoryItems(affiliate=None,
+                                         maxResults=None, \                                        categoryId=None, \
+                                       itemFilter=None, \
+                                       itemId=None, \
+                                       encoding="XML")
         root = objectify.fromstring(result)
         ack = root.ack.text
         self.assertEqual(ack, "Success")
@@ -35,15 +34,15 @@ class TestMerchandisingApi(unittest.TestCase):
 
     def test_getSimilarItems(self):
         result = getSimilarItems(affiliate=None, \
-                        maxResults=None, \
-                        categoryId=None, \
-                        categoryIdExclude=None, \
-                        endTimeFrom=None, \
-                        endTimeTo=None, \
-                        itemFilter=None, \
-                        itemId=None, \
-                        listingType=None, \
-                        maxPrice=None, \
+                      maxResults=None, \
+                      categoryId=None, \
+                      categoryIdExclude=None, \
+                      endTimeFrom=None, \
+                      endTimeTo=None, \
+                      itemFilter=None, \
+                      itemId=None, \
+                      listingType=None, \
+                       axPrice=None, \
                         encoding="XML")
         root = objectify.fromstring(result)
         ack = root.ack.text
