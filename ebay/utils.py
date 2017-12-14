@@ -1,25 +1,33 @@
-#!/usr/bin/env pythin
+#!/usr/bin/env python
 #-*- coding: utf-8 -*-
 import sys
+from os.path import join, dirname, abspath
+# import urllib2
+from six import PY3 as PYTHON3
+# from ConfigParser import ConfigParser
+from six.moves.configparser import ConfigParser
+import requests
+from lxml import etree
 import base64
+#import codecs
 import json
 import shutil
 import os
-import urllib2
-from ConfigParser import ConfigParser
-from os.path import join, dirname, abspath
-
-import requests
-from lxml import etree
 
 
-CONFIG_STORE = None
+# http://python-future.org/compatible_idioms.html
+# urllib module
+# urllib is the hardest module to use from Python 2/3 compatible code.
+
+# Python 2 and 3: alternative 4 (modified)
+if PYTHON3:
+    from urllib.request import urlopen, Request
+else:
+    from urllib2 import urlopen, Request
 
 
-def get_endpoint_response(
-        endpoint_name, operation_name,
-        data, encoding,
-        **headers):
+def get_endpoint_response(endpoint_name, operation_name, data, encoding, 
+                          **headers):
     config = get_config_store()
     endpoint = config.get("endpoints", endpoint_name)
     app_name = config.get("keys", "app_name")
@@ -28,26 +36,25 @@ def get_endpoint_response(
     compatibility_level = config.get("call", "compatibility_level")
     siteId = config.get("call", "siteid")
 
-    http_headers = {
-        "X-EBAY-API-COMPATIBILITY-LEVEL": compatibility_level,
-        "X-EBAY-API-DEV-NAME": dev_name,
-        "X-EBAY-API-APP-NAME": app_name,
-        "X-EBAY-API-CERT-NAME": cert_name,
-        "X-EBAY-API-CALL-NAME": operation_name,
-        "X-EBAY-API-SITEID": siteId,
-        "Content-Type": "text/xml"}
+    http_headers = { "X-EBAY-API-COMPATIBILITY-LEVEL" : compatibility_level,
+                "X-EBAY-API-DEV-NAME" : dev_name,
+                "X-EBAY-API-APP-NAME" : app_name,
+                "X-EBAY-API-CERT-NAME": cert_name,
+                "X-EBAY-API-CALL-NAME": operation_name,
+                "X-EBAY-API-SITEID" : siteId,
+                "Content-Type" : "text/xml" }
 
     http_headers.update(headers)
 
-    req = urllib2.Request(endpoint, data, http_headers)
-    res = urllib2.urlopen(req)
-    return res.read()
+    # req = urllib2.Request(endpoint, data, http_headers)
+    req = Request(endpoint, data, http_headers)
+    # res = urllib2.urlopen(req)
+    res = urlopen(req)
+    data = res.read()
+    return data
 
-
-def get_endpoint_response_with_file(
-        endpoint_name, operation_name,
-        fobj, data,
-        encoding, **headers):
+def get_endpoint_response_with_file(endpoint_name, operation_name, fobj, data,
+                                    encoding, **headers):
     config = get_config_store()
     endpoint = config.get("endpoints", endpoint_name)
     app_name = config.get("keys", "app_name")
@@ -56,28 +63,27 @@ def get_endpoint_response_with_file(
     compatibility_level = config.get("call", "compatibility_level")
     siteId = config.get("call", "siteid")
 
-    http_headers = {
-        "X-EBAY-API-COMPATIBILITY-LEVEL": compatibility_level,
-        "X-EBAY-API-DEV-NAME": dev_name,
-        "X-EBAY-API-APP-NAME": app_name,
-        "X-EBAY-API-CERT-NAME": cert_name,
-        "X-EBAY-API-CALL-NAME": operation_name,
-        "X-EBAY-API-SITEID": siteId,
-        "X-EBAY-API-DETAIL-LEVEL": "0",
-        "Content-Type": "multipart/form-data"}
+    http_headers = { "X-EBAY-API-COMPATIBILITY-LEVEL" : compatibility_level,
+                "X-EBAY-API-DEV-NAME" : dev_name,
+                "X-EBAY-API-APP-NAME" : app_name,
+                "X-EBAY-API-CERT-NAME": cert_name,
+                "X-EBAY-API-CALL-NAME": operation_name,
+                "X-EBAY-API-SITEID" : siteId,
+                "X-EBAY-API-DETAIL-LEVEL": "0",
+                "Content-Type" : "multipart/form-data" }
 
     http_headers.update(headers)
 
     files = {'file': ('image', fobj)}
-    dataload = {'body': data}
+    dataload = { 'body': data }
     res = requests.post(endpoint, files=files, data=dataload,
                         headers=http_headers)
     return res.text
 
-
 def relative(*paths):
     return join(dirname(abspath(__file__)), *paths)
 
+CONFIG_STORE = None
 
 def set_config_file(filename):
     """
@@ -87,7 +93,6 @@ def set_config_file(filename):
     global CONFIG_STORE
     CONFIG_STORE = ConfigParser()
     CONFIG_STORE.read(filename)
-
 
 def get_config_store():
     """
@@ -100,9 +105,8 @@ def get_config_store():
     if CONFIG_STORE is None:
         CONFIG_STORE = ConfigParser()
         CONFIG_STORE.read(relative("config.ini"))
-
+        
     return CONFIG_STORE
-
 
 def write_config_example(dst=None):
     """
@@ -154,7 +158,6 @@ class SortOrder(object):
         self.sortPriority = sortPriority
         self.order = order
         self.propertyName = propertyName
-
 
 def add_e(parent, key, val=None):
     child = etree.SubElement(parent, key)

@@ -1,19 +1,22 @@
-import urllib2
+# import urllib2
+
 from lxml import etree
 
-from utils import get_config_store
+try:
+    from  utils import get_config_store, urlopen, Request
+except ImportError:
+    from .utils import get_config_store, urlopen, Request
 
 # case retrieval calls
-def getUserCases(caseStatusFilter=None,
-                 caseTypeFilter=None,
-                 creationDateRangeFilterFrom=None,
-                 creationDateRangeFilterTo=None,
-                 itemFilter=None,
-                 paginationInput=None,
-                 sortOrder=None,
-                 encoding="JSON"):
-    root = etree.Element("getUserCasesRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+def getUserCases(caseStatusFilter = None,
+                 caseTypeFilter = None,
+                 creationDateRangeFilterFrom = None,
+                 creationDateRangeFilterTo = None,
+                 itemFilter = None,
+                 paginationInput = None,
+                 sortOrder = None,
+                 encoding = "JSON"):
+    root = etree.Element("getUserCasesRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     #caseStatusFilter is a List
     if caseStatusFilter:
@@ -39,15 +42,15 @@ def getUserCases(caseStatusFilter=None,
 
 
     #itemFilter is a dict: {itemId:123, transactionId:72}
-    if itemFilter and len(itemFilter) > 0:
+    if itemFilter and len(itemFilter)>0:
         itemFilter_elem = etree.SubElement(root, "itemFilter")
         for key in itemFilter.keys():
             itemId_elem = etree.SubElement(itemFilter_elem, key)
-            itemId_elem.text = itemFilter[key]
+            itemId_elem.text =  itemFilter[key]
 
 
     # paginationInput is a dict: {entriesPerPage:5, pageNumber:10}
-    if paginationInput and len(paginationInput) > 0:
+    if paginationInput and len(paginationInput)>0:
         paginationInput_elem = etree.SubElement(root, "paginationInput")
         for key in paginationInput.keys():
             input_values_elem = etree.SubElement(paginationInput_elem, key)
@@ -57,13 +60,12 @@ def getUserCases(caseStatusFilter=None,
         sortOrder_elem = etree.SubElement(root, "sortOrder")
         sortOrder_elem.text = sortOrder
 
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getUserCases.__name__, request, encoding)
 
-
 def getEBPCaseDetail(caseId, caseType, encoding="JSON"):
-    root = etree.Element("getEBPCaseDetailRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("getEBPCaseDetailRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -77,8 +79,7 @@ def getEBPCaseDetail(caseId, caseType, encoding="JSON"):
 
 # Seller Option Calls
 def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=None, encoding="JSON"):
-    root = etree.Element("provideTrackingInfoRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("provideTrackingInfoRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -96,13 +97,12 @@ def provideTrackingInfo(caseId, caseType, carrierUsed, trackingNumber, comments=
         comments_elem = etree.SubElement(root, "comments")
         comments_elem.text = comments
 
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(provideTrackingInfo.__name__, request, encoding)
 
-
 def issueFullRefund(caseId, caseType, comments=None, encoding="JSON"):
-    root = etree.Element("issueFullRefundRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("issueFullRefundRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -117,10 +117,8 @@ def issueFullRefund(caseId, caseType, comments=None, encoding="JSON"):
     request = etree.tostring(root, pretty_print=True)
     return get_response(issueFullRefund.__name__, request, encoding)
 
-
 def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
-    root = etree.Element("offerOtherSolutionRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("offerOtherSolutionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -135,10 +133,8 @@ def offerOtherSolution(caseId, caseType, messageToBuyer, encoding="JSON"):
     return get_response(offerOtherSolution.__name__, request, encoding)
 
 #NOT WORKING on SANDBOX, need to investigate
-def escalateToCustomerSuppport(caseId, caseType, escalationReason,
-                               comments=None, encoding="JSON"):
-    root = etree.Element("escalateToCustomerSuppportRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+def escalateToCustomerSuppport(caseId, caseType, escalationReason, comments=None, encoding="JSON"):
+    root = etree.Element("escalateToCustomerSuppportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -159,11 +155,8 @@ def escalateToCustomerSuppport(caseId, caseType, escalationReason,
     request = etree.tostring(root, pretty_print=True)
     return get_response(escalateToCustomerSuppport.__name__, request, encoding)
 
-
-def appealToCustomerSupport(caseId, caseType, appealReason,
-                            comments=None, encoding="JSON"):
-    root = etree.Element("appealToCustomerSupportRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+def appealToCustomerSupport(caseId, caseType, appealReason, comments=None, encoding="JSON"):
+    root = etree.Element("appealToCustomerSupportRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -184,8 +177,7 @@ def appealToCustomerSupport(caseId, caseType, appealReason,
 
 # Metadata calls
 def getActivityOptions(caseId, caseType, encoding="JSON"):
-    root = etree.Element("getActivityOptionsRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("getActivityOptionsRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     caseId_elem = etree.SubElement(root, "caseId")
     id_elem = etree.SubElement(caseId_elem, "id")
@@ -196,10 +188,8 @@ def getActivityOptions(caseId, caseType, encoding="JSON"):
     request = etree.tostring(root, pretty_print=True)
     return get_response(getActivityOptions.__name__, request, encoding)
 
-
 def getVersion(encoding="JSON"):
-    root = etree.Element("getVersionRequest",
-                         xmlns="http://www.ebay.com/marketplace/search/v1/services")
+    root = etree.Element("getVersionRequest", xmlns="http://www.ebay.com/marketplace/search/v1/services")
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(getVersion.__name__, request, encoding)
@@ -210,14 +200,15 @@ def get_response(operation_name, data, encoding, **headers):
     access_token = config.get("auth", "token")
     endpoint = config.get("endpoints", "resolution_case_management")
 
-    http_headers = {
-        "X-EBAY-SOA-OPERATION-NAME": operation_name,
-        "X-EBAY-SOA-SECURITY-TOKEN": access_token,
-        "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
+    http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
+                    "X-EBAY-SOA-SECURITY-TOKEN": access_token,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
 
     http_headers.update(headers)
 
-    req = urllib2.Request(endpoint, data, http_headers)
-    res = urllib2.urlopen(req)
+    # req = urllib2.Request(endpoint, data, http_headers)
+    req = Request(endpoint, data, http_headers)
+    # res = urllib2.urlopen(req)
+    res = urlopen(req)
     data = res.read()
     return data

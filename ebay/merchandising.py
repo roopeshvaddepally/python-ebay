@@ -1,13 +1,16 @@
-import urllib2
+# import urllib2
+
 from lxml import etree
 
-from utils import get_config_store
+try:
+    from  utils import get_config_store, urlopen, Request
+except ImportError:
+    from .utils import get_config_store, urlopen, Request
 
 
 def getDeals(keywords, encoding="JSON"):
     #not documented in ebay docs. Need to raise a ticket
-    root = etree.Element("getDealsRequest",
-                         xmlns="http://www.ebay.com/marketplace/services")
+    root = etree.Element("getDealsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     keywords_elem = etree.SubElement(root, "keywords")
     keywords_elem.text = keywords
@@ -16,10 +19,8 @@ def getDeals(keywords, encoding="JSON"):
     return get_response(getDeals.__name__, request, encoding)
 
 
-def getMostWatchedItems(affiliate=None, maxResults=None,
-                        categoryId=None, encoding="JSON"):
-    root = etree.Element("getMostWatchedItemsRequest",
-                         xmlns="http://www.ebay.com/marketplace/services")
+def getMostWatchedItems(affiliate=None, maxResults=None,categoryId=None, encoding="JSON"):
+    root = etree.Element("getMostWatchedItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict
     if affiliate:
@@ -36,17 +37,19 @@ def getMostWatchedItems(affiliate=None, maxResults=None,
         categoryId_elem = etree.SubElement(root, "categoryId")
         categoryId_elem.text = categoryId
 
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getMostWatchedItems.__name__, request, encoding)
 
 
 #Takes categoryId or itemId
-def getRelatedCategoryItems(
-        affiliate=None, maxResults=None,
-        categoryId=None, itemFilter=None,
-        itemId=None, encoding="JSON"):
-    root = etree.Element("getRelatedCategoryItemsRequest",
-                         xmlns="http://www.ebay.com/marketplace/services")
+def getRelatedCategoryItems(affiliate=None, \
+                            maxResults=None, \
+                            categoryId=None, \
+                            itemFilter=None, \
+                            itemId=None, \
+                            encoding="JSON"):
+    root = etree.Element("getRelatedCategoryItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict
     if affiliate:
@@ -64,12 +67,12 @@ def getRelatedCategoryItems(
         categoryId_elem.text = categoryId
 
     #itemFilter is list of dicts
-    if itemFilter and len(itemFilter) > 0:
+    if itemFilter and len(itemFilter)>0:
         for item in itemFilter:
             itemFilter_elem = etree.SubElement(root, "itemFilter")
             for key in itemFilter.keys():
                 itemId_elem = etree.SubElement(itemFilter_elem, key)
-                itemId_elem.text = itemFilter[key]
+                itemId_elem.text =  itemFilter[key]
 
     if itemId:
         itemId_elem = etree.SubElement(root, "itemId")
@@ -79,15 +82,18 @@ def getRelatedCategoryItems(
     return get_response(getRelatedCategoryItems.__name__, request, encoding)
 
 
-def getSimilarItems(
-        affiliate=None, maxResults=None,
-        categoryId=None, categoryIdExclude=None,
-        endTimeFrom=None, endTimeTo=None,
-        itemFilter=None, itemId=None,
-        listingType=None, maxPrice=None,
-        encoding="JSON"):
-    root = etree.Element("getSimilarItemsRequest",
-                         xmlns="http://www.ebay.com/marketplace/services")
+def getSimilarItems(affiliate=None, \
+                    maxResults=None, \
+                    categoryId=None, \
+                    categoryIdExclude=None, \
+                    endTimeFrom=None, \
+                    endTimeTo=None, \
+                    itemFilter=None, \
+                    itemId=None, \
+                    listingType=None, \
+                    maxPrice=None, \
+                    encoding="JSON"):
+    root = etree.Element("getSimilarItemsRequest", xmlns="http://www.ebay.com/marketplace/services")
 
     #affiliate is dict
     if affiliate:
@@ -106,9 +112,10 @@ def getSimilarItems(
         categoryId_elem.text = categoryId
 
     #categoryIdExclude is list
-    for cat_id in categoryIdExclude:
-        categoryIdExclude_elem = etree.SubElement(root, "categoryIdExclude")
-        categoryIdExclude_elem.text = cat_id
+    if categoryIdExclude:
+        for cat_id in categoryIdExclude:
+           categoryIdExclude_elem = etree.SubElement(root, "categoryIdExclude")
+           categoryIdExclude_elem.text = cat_id
 
     if endTimeFrom and endTimeTo:
         endTimeFrom_elem = etree.SubElement(root, "endTimeFrom")
@@ -117,12 +124,12 @@ def getSimilarItems(
         endTimeTo_elem = endTimeTo
 
     #itemFilter is list of dicts
-    if itemFilter and len(itemFilter) > 0:
+    if itemFilter and len(itemFilter)>0:
         for item in itemFilter:
             itemFilter_elem = etree.SubElement(root, "itemFilter")
             for key in itemFilter.keys():
                 itemId_elem = etree.SubElement(itemFilter_elem, key)
-                itemId_elem.text = itemFilter[key]
+                itemId_elem.text =  itemFilter[key]
 
     if itemId:
         itemId_elem = etree.SubElement(root, "itemId")
@@ -135,6 +142,7 @@ def getSimilarItems(
     if maxPrice:
         maxPrice_elem = etree.SubElement(root, "maxPrice")
         maxPrice_elem.text = maxPrice
+
 
     request = etree.tostring(root, pretty_print=True)
     return get_response(getSimilarItems.__name__, request, encoding)
@@ -154,6 +162,7 @@ def getTopSellingProducts(affiliate=None, maxResults=None, encoding="JSON"):
         maxResults_elem = etree.SubElement(root, "maxResults")
         maxResults_elem.text = maxResults
 
+
     request = etree.tostring(root, pretty_print=True)
     return get_response(getTopSellingProducts.__name__, request, encoding)
 
@@ -163,14 +172,16 @@ def get_response(operation_name, data, encoding, **headers):
     app_name = config.get("keys", "app_name")
     endpoint = config.get("endpoints", "merchandising")
 
-    http_headers = {
-        "X-EBAY-SOA-OPERATION-NAME": operation_name,
-        "EBAY-SOA-CONSUMER-ID": app_name,
-        "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
+    http_headers = {"X-EBAY-SOA-OPERATION-NAME": operation_name,
+                    "EBAY-SOA-CONSUMER-ID": app_name,
+                    "X-EBAY-SOA-RESPONSE-DATA-FORMAT": encoding}
 
     http_headers.update(headers)
 
-    req = urllib2.Request(endpoint, data, http_headers)
-    res = urllib2.urlopen(req)
-    return res.read()
+    # req = urllib2.Request(endpoint, data, http_headers)
+    req = Request(endpoint, data, http_headers)
+    # res = urllib2.urlopen(req)
+    res = urlopen(req)
+    data = res.read()
+    return data
 
