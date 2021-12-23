@@ -1,5 +1,5 @@
 """
-Show haow to use alternative configuration files.
+Show how to use alternative configuration files.
 """
 from os import system
 from os.path import join, dirname, abspath
