@@ -81,7 +81,7 @@ The currently implemented functions are listed together with a short description
 https://github.com/roopeshvaddepally/python-ebay/wiki/List-of-eBay-APIs
 
 Extensive documentation of eBay's API is available on eBay's developer website. 
-This documentation focusses on XML messages that are sent to eBay's servers, 
+This documentation focuses on XML messages that are sent to eBay's servers, 
 and XML responses that are received from those servers.
 http://developer.ebay.com/products/overview
 
