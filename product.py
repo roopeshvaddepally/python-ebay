@@ -7,6 +7,8 @@ try:
     from  utils import ( get_config_store, urlopen, Request, Specification,
                          CompatibilityPropertyFilter,  Value, SortOrder )
 except ImportError:
+    from .utils import ( get_config_store, urlopen, Request, Specification,
+                         CompatibilityPropertyFilter,  Value, SortOrder )
 
 def findCompatibilitiesBySpecification(specification, \
                                        categoryId, \

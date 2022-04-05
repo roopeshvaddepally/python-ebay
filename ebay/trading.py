@@ -1,33 +1,34 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 import sys
+from lxml import etree, objectify
 from xml.dom.minidom import parseString
 
-from utils import (get_endpoint_response, get_config_store,
-                   get_endpoint_response_with_file, add_e, imgur_post)
-from lxml import etree, objectify
-
+try:
+    from  utils import ( get_endpoint_response, get_config_store,
+                         get_endpoint_response_with_file, add_e, imgur_post )
+except ImportError:
+    from .utils import ( get_endpoint_response, get_config_store,
+                         get_endpoint_response_with_file, add_e, imgur_post )
 
 CID = {
     'new': '1000',
     'used': '3000',
 }
 
-
 def addItemWithPic(image, **kwargs):
     url = uploadSiteHostedPicture(image)
     kwargs['pictureDetails'] = [url]
     return addItem(**kwargs)
 
+def addItem(title, description, primaryCategoryId,
+            startPrice='0.99', buyItNowPrice=None, country='US',
+            currency='USD', dispatchTimeMax='3', listingDuration='Days_7',
+            listingType='Chinese', paymentMethods=['PayPal'],
+            payPalEmailAddress='', pictureDetails=[], postalCode='',
+            photoDisplay='PicturePack', condition='new',
+            quantity=1, freeShipping=True, site='US', test=False):
 
-def addItem(
-        title, description, primaryCategoryId,
-        startPrice='0.99', buyItNowPrice=None, country='US',
-        currency='USD', dispatchTimeMax='3', listingDuration='Days_7',
-        listingType='Chinese', paymentMethods=['PayPal'],
-        payPalEmailAddress='', pictureDetails=[], postalCode='',
-        photoDisplay='PicturePack', condition='new',
-        quantity=1, freeShipping=True, site='US', test=False):
     #get the user auth token
     token = get_config_store().get("auth", "token")
     oname = "AddItem" if not test else 'VerifyAddItem'
@@ -38,6 +39,7 @@ def addItem(
     credentials_elem = etree.SubElement(root, "RequesterCredentials")
     token_elem = etree.SubElement(credentials_elem, "eBayAuthToken")
     token_elem.text = token
+
 
     item_e = etree.SubElement(root, "Item")
     t_e = add_e(item_e, "Title", str(title))
@@ -71,7 +73,7 @@ def addItem(
     add_e(returnPol_e, "Description", "If you are not satisfied, ship the item back for a full refund.")
     add_e(returnPol_e, "ShippingCostPaidByOption", "Buyer")
     # end default ret pol
-
+    
     shipde_e = add_e(item_e, "ShippingDetails", None)
     if freeShipping:
         sst = add_e(shipde_e, "ShippingType", "Flat")
@@ -85,24 +87,24 @@ def addItem(
 
     #need to specify xml declaration and encoding or else will get error
     request = etree.tostring(root, pretty_print=True,
-                             xml_declaration=True, encoding="utf-8")
+                              xml_declaration=True, encoding="utf-8")
     response = get_response(oname, request, "utf-8")
 
     return response
 
 
-def getCategories(
-        parentId=None,
-        detailLevel='ReturnAll',
-        errorLanguage=None,
-        messageId=None,
-        outputSelector=None,
-        version=None,
-        warningLevel="High",
-        levelLimit=1,
-        viewAllNodes=True,
-        categorySiteId=0,
-        encoding="JSON"):
+def getCategories(  parentId=None, \
+                    detailLevel='ReturnAll', \
+                    errorLanguage=None, \
+                    messageId=None, \
+                    outputSelector=None, \
+                    version=None, \
+                    warningLevel="High", \
+                    levelLimit=1, \
+                    viewAllNodes=True, \
+                    categorySiteId=0, \
+                    encoding="JSON",
+                    **headers ):
     """
     Using a query string and parentId this function returns
     all the categories containing that string within the category name,
@@ -161,8 +163,8 @@ def getCategories(
 
     #need to specify xml declaration and encoding or else will get error
     request = etree.tostring(root, pretty_print=False,
-                             xml_declaration=True, encoding="utf-8")
-    response = get_response("GetCategories", request, encoding)
+                              xml_declaration=True, encoding="utf-8")
+    response = get_response("GetCategories", request, encoding,  **headers )
 
     return response
 
@@ -220,7 +222,7 @@ def uploadSiteHostedPicture(filepath):
     epu = add_e(root, "ExternalPictureURL", urlpath)
 
     request = etree.tostring(root, pretty_print=True,
-                             xml_declaration=True, encoding="UTF-8")
+                              xml_declaration=True, encoding="UTF-8")
 
     response = get_response(oname, request, "UTF-8")
 
@@ -231,15 +233,12 @@ def url_result(result):
     root = objectify.fromstring(result)
     url = root.FullURL.text
     return url
-
+     
 
 def get_response(operation_name, data, encoding, **headers):
-    return get_endpoint_response(
-        "trading", operation_name,
-        data, encoding, **headers)
-
+    return get_endpoint_response("trading", operation_name,
+                                  data, encoding, **headers)
 
 def get_response_with_file(operation_name, fobj, data, encoding, **headers):
-    return get_endpoint_response_with_file(
-        "trading", operation_name,
-        fobj, data, encoding, **headers)
+    return get_endpoint_response_with_file("trading", operation_name,
+                fobj, data, encoding, **headers)
